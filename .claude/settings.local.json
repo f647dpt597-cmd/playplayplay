@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(where:*)",
+      "Bash(where convert:*)",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(node:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(ls:*)",
+      "Bash(ffmpeg:*)",
+      "Bash(head:*)",
+      "Bash(wc:*)",
+      "Bash(ffprobe:*)",
+      "Bash(for file in \"04_miguel_borrego_ceo_thyssenkrupp\" \"09_hedgefond_henning_influencer\" \"10_christian _roehl_cheifeconomist_scalablecapital\" \"19_Dr_Katharina_Seiler_Representative of the Supervisory Board_DWS\")",
+      "Bash(do)",
+      "Bash(if [ -f \"assets/speaker/$file.svg\" ])",
+      "Bash(then)",
+      "Bash(fi)",
+      "Bash(done)",
+      "Bash(find:*)",
+      "Bash(sort:*)",
+      "Bash(sips:*)"
+    ]
+  }
+}
