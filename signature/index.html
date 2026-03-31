@@ -1,0 +1,155 @@
+<table cellpadding="0" cellspacing="0" border="0" role="presentation"
+       style="max-width:600px;width:100%;font-family:Arial, sans-serif;font-size:14px;color:#222;border-collapse:collapse;">
+  <tr>
+    <td style="padding:12px;border:1px solid #e0e0e0;background:#ffffff;">
+
+      <!-- Logo -->
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="border-collapse:collapse;">
+        <tr>
+          <td align="center" style="padding:8px 0 10px 0;">
+            <img src="fsbusinessforum_logo.jpg"
+                 alt="FS Business Forum Logo"
+                 width="80" height="80"
+                 style="display:block;border:0;outline:none;text-decoration:none;">
+          </td>
+        </tr>
+      </table>
+
+      <!-- Name & Title -->
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="border-collapse:collapse;">
+        <tr>
+          <td align="center" style="padding-bottom:8px;">
+            <div id="userName" style="font-size:20px;font-weight:700;color:#111;line-height:1.1;">
+              Jakob Brötz
+            </div>
+            <div id="userPosition" style="font-size:13px;font-style:italic;color:#666;line-height:1.1;">
+              Head of Corporate
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Divider -->
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="margin:8px 0;border-collapse:collapse;">
+        <tr>
+          <td style="border-top:1px solid #e6e6e6;font-size:0;line-height:0;">&nbsp;</td>
+        </tr>
+      </table>
+
+      <!-- Contact -->
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="margin-bottom:10px;border-collapse:collapse;">
+        <tr>
+          <td style="padding-bottom:4px;">
+            <strong>M:</strong>
+            <a href="tel:+491725467904" style="color:#0b5bd7;text-decoration:none;margin-left:6px;">
+              +49 172 5467904
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>E:</strong>
+            <a href="mailto:jakob.broetz@fs-businessforum.com" style="color:#0b5bd7;text-decoration:none;margin-left:6px;">
+              jakob.broetz@fs-businessforum.com
+            </a>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Event Info -->
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="margin-bottom:12px;border-collapse:collapse;">
+        <tr>
+          <td style="font-weight:700;color:#111;padding-bottom:6px;">
+            FS Business Forum – Connecting Minds. Creating Future.
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#444;padding-bottom:4px;">
+            13. &amp; 14. November 2026
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#444;">
+            Adickesallee 32–34, 60322 Frankfurt am Main, Germany
+          </td>
+        </tr>
+      </table>
+
+      <!-- Buttons (eckig, stabil) -->
+      <table cellpadding="0" cellspacing="0" border="0" role="presentation" style="border-collapse:collapse;margin-top:8px;">
+        <tr>
+
+          <td>
+            <a href="https://fs-businessforum.com" target="_blank"
+               style="display:inline-block;padding:8px 18px;background:#133a70;color:#ffffff;
+                      text-decoration:none;font-weight:600;font-size:13px;">
+              fs-businessforum.com
+            </a>
+          </td>
+
+          <td width="8" style="font-size:0;line-height:0;">&nbsp;</td>
+
+          <td>
+            <a href="https://de.linkedin.com/company/fsbusinessforum" target="_blank"
+               style="display:inline-block;padding:8px 16px;background:#133a70;color:#ffffff;
+                      text-decoration:none;font-weight:600;font-size:13px;">
+              LinkedIn
+            </a>
+          </td>
+
+          <td width="8" style="font-size:0;line-height:0;">&nbsp;</td>
+
+          <td>
+            <a href="https://www.instagram.com/fs_businessforum/" target="_blank"
+               style="display:inline-block;padding:8px 16px;background:#133a70;color:#ffffff;
+                      text-decoration:none;font-weight:600;font-size:13px;">
+              Instagram
+            </a>
+          </td>
+
+        </tr>
+      </table>
+
+    </td>
+  </tr>
+</table>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const fullName = prompt('Please enter your full name:');
+    
+    if (fullName) {
+      const position = prompt('Please enter your position:');
+      
+      if (position) {
+        const phoneNumber = prompt('Please enter your phone number:');
+        
+        if (phoneNumber) {
+          const email = prompt('Please enter your business forum email:');
+          
+          if (email && confirm('Confirm your details?\n\nName: ' + fullName + '\nPosition: ' + position + '\nPhone: ' + phoneNumber + '\nEmail: ' + email)) {
+            // Update name
+            document.getElementById('userName').textContent = fullName;
+            
+            // Update position
+            document.getElementById('userPosition').textContent = position;
+            
+            // Update phone number
+            const phoneLink = document.querySelector('a[href^="tel:"]');
+            if (phoneLink) {
+              phoneLink.href = 'tel:' + phoneNumber.replace(/\D/g, '');
+              phoneLink.textContent = phoneNumber;
+            }
+            
+            // Update email
+            const emailLink = document.querySelector('a[href^="mailto:"]');
+            if (emailLink) {
+              emailLink.href = 'mailto:' + email;
+              emailLink.textContent = email;
+            }
+          }
+        }
+      }
+    }
+  });
+</script>
