@@ -29,10 +29,16 @@
 
     <!-- Lenis Smooth Scroll -->
     <script src="https://cdn.jsdelivr.net/gh/darkroomengineering/lenis@1.1.13/bundled/lenis.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
     <!-- Scroll Progress Bar -->
     <div class="scroll-progress"></div>
 
@@ -116,7 +122,7 @@
                 <span class="title-line title-accent">Creating Future</span>
             </h1>
             <p class="hero-description">
-                Where tomorrow's leaders meet today's visionaries. Two transformative days of keynotes, panels, and networking at Frankfurt School of Finance & Management.
+                Where tomorrow’s leaders meet today’s visionaries.<br>Two transformative days of keynotes, workshops, panels and networking at the Frankfurt School of Finance & Management.
             </p>
             <div class="hero-stats">
                 <div class="stat">
@@ -615,9 +621,18 @@
                 </div>
             </div>
 
-            <!-- Show More Button -->
-            <div class="show-more-container">
-                <button class="btn btn-primary btn-shimmer show-more-btn" id="showMoreSpeakers">
+            <!-- Buttons Container -->
+            <div class="speakers-buttons-container">
+                <!-- 新按钮：Become a Speaker (居中) -->
+                <button class="btn btn-primary btn-shimmer become-speaker-btn" onclick="window.location.href='mailto:speakers@fsbusinessforum.com'">
+                    <span>Become a Speaker</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </button>
+
+                <!-- 原按钮：Show More Speakers (移到右边) -->
+                <button class="btn btn-secondary show-more-btn" id="showMoreSpeakers">
                     <span>Show More Speakers</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M19 9l-7 7-7-7"/>
@@ -814,151 +829,88 @@
                 <!-- Row 1: Featured landscape - Social (prominent female) -->
                 <div class="gallery-item featured">
                     <img src="assets/picturesdecoration/afterparty_fomo_social_wineglasseds.jpg" alt="Social">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Networking</span>
-                    </div>
                 </div>
                 <!-- Row 1: Two landscape images -->
                 <div class="gallery-item">
                     <img src="assets/picturesdecoration/whinetastingdesk.jpg" alt="Wine Tasting">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Wine Tasting</span>
-                    </div>
                 </div>
                 <div class="gallery-item">
                     <img src="assets/picturesdecoration/afterpartydj.jpg" alt="Afterparty DJ">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Afterparty</span>
-                    </div>
                 </div>
 
                 <!-- Row 2: Two portrait images side by side -->
                 <div class="gallery-item portrait">
                     <img src="assets/picturesdecoration/moderator.jpg" alt="Moderator">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Stage</span>
-                    </div>
                 </div>
                 <div class="gallery-item portrait">
                     <img src="assets/picturesdecoration/christianduerrspeaking.jpg" alt="Keynote">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Keynote</span>
-                    </div>
                 </div>
 
                 <!-- Row 2: Two landscape -->
                 <div class="gallery-item">
                     <img src="assets/picturesdecoration/crowd_clapping.jpg" alt="Audience">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Audience</span>
-                    </div>
                 </div>
                 <div class="gallery-item">
                     <img src="assets/picturesdecoration/happycrowed.jpg" alt="Happy Crowd">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Atmosphere</span>
-                    </div>
                 </div>
 
                 <!-- Row 3: Featured landscape - VIP Event -->
                 <div class="gallery-item featured">
                     <img src="assets/picturesdecoration/alexanderdoll_profstieglitz_andreaorcelpicture.jpg" alt="CEO Event">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">VIP</span>
-                    </div>
                 </div>
                 <!-- Two landscape -->
                 <div class="gallery-item">
                     <img src="assets/picturesdecoration/thyssenkrupp_ceo_with_adnreas_grassl.jpg" alt="CEO Meeting">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Speakers</span>
-                    </div>
                 </div>
                 <div class="gallery-item">
                     <img src="assets/picturesdecoration/guests_oplaying_kicker.jpg" alt="Recreation">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Fun</span>
-                    </div>
                 </div>
 
                 <!-- Row 4: Two portrait images side by side -->
                 <div class="gallery-item portrait">
                     <img src="assets/picturesdecoration/coffebike.jpg" alt="Coffee">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Amenities</span>
-                    </div>
                 </div>
                 <div class="gallery-item portrait">
                     <img src="assets/picturesdecoration/companyworkshop.jpg" alt="Workshop">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Workshops</span>
-                    </div>
                 </div>
 
                 <!-- Two landscape -->
                 <div class="gallery-item">
                     <img src="assets/picturesdecoration/defensepanelmoderator.jpg" alt="Panel Moderator">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Panels</span>
-                    </div>
                 </div>
                 <div class="gallery-item">
                     <img src="assets/picturesdecoration/the_3_chairmen_and_moderator.jpg" alt="Organizers">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Team</span>
-                    </div>
                 </div>
 
                 <!-- Row 5: Featured landscape -->
                 <div class="gallery-item featured">
                     <img src="assets/picturesdecoration/guest_locked_in.jpg" alt="Engaged Guest">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Focus</span>
-                    </div>
                 </div>
 
-                <!-- Two portrait images side by side -->
-                <div class="gallery-item portrait">
-                    <img src="assets/picturesdecoration/dj.jpg" alt="DJ">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Music</span>
-                    </div>
-                </div>
-                <div class="gallery-item portrait">
-                    <img src="assets/picturesdecoration/thyssenkrupp_ceo_receives_present.jpg" alt="CEO Gift">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Moments</span>
-                    </div>
-                </div>
+    <!-- Two portrait images side by side -->
+    <div class="gallery-item portrait">
+        <img src="assets/picturesdecoration/dj.jpg" alt="DJ">
+    </div>
+    <div class="gallery-item portrait">
+        <img src="assets/picturesdecoration/thyssenkrupp_ceo_receives_present.jpg" alt="CEO Gift">
+    </div>
 
-                <!-- Two portrait - g1 and g2 side by side -->
-                <div class="gallery-item portrait">
-                    <img src="assets/picturesdecoration/g1.jpg" alt="Guest">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Guests</span>
-                    </div>
-                </div>
-                <div class="gallery-item portrait">
-                    <img src="assets/picturesdecoration/g2.jpg" alt="Guest">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Guests</span>
-                    </div>
-                </div>
+    <!-- Two portrait - g1 and g2 side by side -->
+    <div class="gallery-item portrait">
+        <img src="assets/picturesdecoration/g1.jpg" alt="Guest">
+    </div>
+    <div class="gallery-item portrait">
+        <img src="assets/picturesdecoration/g2.jpg" alt="Guest">
+    </div>
 
-                <!-- Two more landscape -->
-                <div class="gallery-item">
-                    <img src="assets/picturesdecoration/moderatorandsittingcrowd.jpg" alt="Forum session">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Sessions</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="assets/picturesdecoration/g3.jpg" alt="Guest">
-                    <div class="gallery-overlay">
-                        <span class="gallery-tag">Networking</span>
-                    </div>
-                </div>
-            </div>
+    <!-- Two more landscape -->
+    <div class="gallery-item">
+        <img src="assets/picturesdecoration/moderatorandsittingcrowd.jpg" alt="Forum session">
+    </div>
+    <div class="gallery-item">
+        <img src="assets/picturesdecoration/g3.jpg" alt="Guest">
+    </div>
+</div>
         </div>
     </section>
 
@@ -977,17 +929,14 @@
                 <div class="luxury-divider-icon"></div>
             </div>
 
-            <div class="section-header center">
-                <span class="section-tag">Corporate Partners</span>
-                <h2 class="section-title">
-                    <span class="title-reveal">Trusted by</span>
-                    <span class="title-reveal">Industry Leaders</span>
-                </h2>
-                <p class="section-subtitle">Our partners make the FS Business Forum possible</p>
-
-                <!-- Decorative diamond line -->
-                <div class="diamond-line"><span></span></div>
-            </div>
+        <div class="section-header center">
+            <span class="section-tag">CORPORATE PARTNERS</span>
+            <h2 class="section-title">
+                <span class="title-reveal">Partners</span>
+            </h2>
+            <p class="section-subtitle">Our partners make the FS Business Forum possible</p>
+            <div class="diamond-line"><span></span></div>
+        </div>
 
             <div class="partners-grid">
                 <div class="partner-logo">
@@ -1096,8 +1045,22 @@
                     <img src="assets/corporates/picnic_Logo.png" alt="Picnic">
                 </div>
             </div>
+            <!-- Become a Partner Button -->
+            <div class="partners-button-container">
+                <button class="btn btn-primary become-partner-btn" onclick="window.location.href='mailto:partner@fs-businessforum.com'">
+                    <span>Become a Partner</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </button>
+            </div>
+
         </div>
     </section>
+
+  
+
+
 
     <!-- Team Section -->
     <section id="team" class="team luxury-section">
@@ -1112,41 +1075,47 @@
             <div class="section-header center">
                 <span class="section-tag">Leadership</span>
                 <h2 class="section-title">
-                    <span class="title-reveal">Organized by</span>
-                    <span class="title-reveal">30 Students</span>
+                    <span class="title-reveal">Meet Our</span>
+                    <span class="title-reveal">Team</span>
                 </h2>
-                <p class="section-subtitle">The entire conference is planned and executed by students of Frankfurt School of Finance & Management.</p>
                 <div class="diamond-line"><span></span></div>
-            </div>
-
-            <div class="team-photo-wrapper">
-                <img src="assets/picturesdecoration/team.png" alt="The Three Chairmen" class="team-main-photo">
             </div>
 
             <div class="chairmen-grid">
                 <div class="chairman-card">
-                    <h3>Jakub Sommer</h3>
-                    <p>Chairman</p>
+                    <div class="chairman-avatar">JB</div>
+                    <h3>Jakob Brötz</h3>
+                    <p>CHAIRMAN</p>
+                    <div class="chairman-social">
+                        <a href="https://www.linkedin.com/in/jakob-broetz/" target="_blank" class="social-link">LINKEDIN</a>
+                        <a href="mailto:jaku.broetz@fs-students.com" class="social-link">EMAIL</a>
+                    </div>
                 </div>
-                <div class="chairman-card">
-                    <h3>Maximilian Enzinger</h3>
-                    <p>Chairman</p>
-                </div>
-                <div class="chairman-card">
-                    <h3>Fabian Kreutzer</h3>
-                    <p>Chairman</p>
-                </div>
-            </div>
 
-            <div class="team-departments">
-                <span>Corporate Relations</span>
-                <span>Speaker Relations</span>
-                <span>Marketing</span>
-                <span>IT</span>
-                <span>Event Management</span>
+                <div class="chairman-card">
+                    <div class="chairman-avatar">SM</div>
+                    <h3>Sarah Münker</h3>
+                    <p>CHAIRMAN</p>
+                    <div class="chairman-social">
+                        <a href="https://www.linkedin.com/in/sarah-m%C3%BCnker-ab9879328/" target="_blank" class="social-link">LINKEDIN</a>
+                        <a href="mailto:sarah@example.com" class="social-link">EMAIL</a>
+                    </div>
+                </div>
+
+                <div class="chairman-card">
+                    <div class="chairman-avatar">AW</div>
+                    <h3>Anton Wessendorf</h3>
+                    <p>IT HEAD</p>
+                    <div class="chairman-social">
+                        <a href="https://www.linkedin.com/in/anton-wessendorf/" target="_blank" class="social-link">LINKEDIN</a>
+                        <a href="mailto:fabian@example.com" class="social-link">EMAIL</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+    
+
 
     <!-- Stats Section -->
     <section class="stats-section">
@@ -1172,7 +1141,7 @@
             </div>
         </div>
     </section>
-
+    
     <!-- Contact/CTA Section -->
     <section id="contact" class="contact luxury-section">
         <!-- Luxury Decorative Elements -->
@@ -1207,10 +1176,8 @@
                     </div>
                 </div>
                 <div class="contact-cta">
-                    <a href="https://eventbrite.de"
-                    target="_blank"
-                    class="btn btn-primary btn-large">
-                    Get Your Ticket
+                    <a href="tickets.html" class="btn btn-primary btn-large">
+                        Get Your Ticket
                     </a>
                 </div>
             </div>
@@ -1255,7 +1222,7 @@
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2025 FS Business Forum. A student initiative of Frankfurt School of Finance & Management.</p>
-                <p class="footer-credit">Website developed by Maximilian Enzinger</p>
+                <p class="footer-credit">.</p> <!-- Website developed by Maximilian Enzinger -->
             </div>
         </div>
     </footer>
