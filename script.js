@@ -1213,3 +1213,6 @@ if (showMoreBtn) {
 }
 
 console.log('%c Premium Experience Loaded ', 'background: linear-gradient(90deg, #c9a962, #e8d5a3); color: #040810; font-size: 12px; padding: 4px 8px; border-radius: 4px;');
+
+
+console.log("We warmly welcome you to the Business Forum in November :)")
