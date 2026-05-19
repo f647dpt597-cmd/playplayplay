@@ -606,7 +606,7 @@ body.intro-complete .hero-scroll {
     color: var(--color-accent);
     font-style: italic;
     display: inline-block;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .title-line-sub {
@@ -1143,7 +1143,7 @@ section {
 }
 
 .speaker-role {
-    font-size: 1.0rem;
+    font-size: 1.2rem;
     color: var(--color-text-secondary);
     line-height: 1.4;
 }
@@ -1298,7 +1298,8 @@ section {
 
 /* Partners Section */
 .partners {
-    padding: 10rem 3rem;
+    padding: 8rem 3rem 1.5rem 3rem;
+    /* 从3rem改成1.5rem，更紧凑 */
     background: var(--color-bg);
     position: relative;
     overflow-x: clip;
@@ -2216,54 +2217,105 @@ section {
 
 .chairmen-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    max-width: 800px;
-    margin: 3rem auto;
+    grid-template-columns: repeat(3, 350px);
+    /* 改成固定3列，每列350px */
+    gap: 2.5rem;
+    justify-content: center;
+    /* 从justify-items改成justify-content，让整个grid居中 */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+    .chairmen-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .chairman-card {
+    background: linear-gradient(135deg, rgba(10, 16, 24, 0.6) 0%, rgba(4, 8, 16, 0.8) 100%);
+    border: 2px solid rgba(198, 169, 99, 0.6);
+    /* 从1px改成2px，透明度从0.35改成0.6 */
+    border-radius: 15px;
+    padding: 2.5rem 2rem;
     text-align: center;
-    padding: 2rem;
-    background: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    transition: border-color 0.3s, transform 0.3s;
-    position: relative;
-    overflow: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
 }
 
 .chairman-card:hover {
-    border-color: var(--color-accent);
+    border-color: rgba(198, 169, 99, 1);
+    /* 从0.8改成1，hover时完全不透明 */
     transform: translateY(-5px);
+    box-shadow: 0 10px 40px rgba(198, 169, 99, 0.15);
+}
+
+.chairman-avatar {
+    width: 140px;        /* 从 80px 改成 140px */
+    height: 140px;       /* 从 80px 改成 140px */
+    margin: 0 auto 1.5rem;
+    background: rgba(26, 35, 47, 0.6);
+    border: 2px solid #C6A963;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #C6A963;
+    letter-spacing: 0.05em;
+}
+
+.chairman-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* 确保图片填满圆形，不变形 */
+    border-radius: 50%;
 }
 
 .chairman-card h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
+    font-size: 1.5rem;
+    color: #ffffff;
     margin-bottom: 0.5rem;
+    font-weight: 500; /* 从600改成500，更细更优雅 */
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 0.02em; /* 从-0.01em改成0.02em，稍微松散一点 */
 }
 
 .chairman-card p {
-    font-size: 0.875rem;
-    color: var(--color-accent);
+    color: #C6A963;
+    font-size: 0.85rem; /* 从0.9改小一点 */
+    letter-spacing: 0.1em; /* 从0.15em减小 - 之前太松散 */
+    margin-bottom: 1.5rem;
+    font-weight: 400; /* 从500改400 - 更精致 */
+    text-transform: uppercase; /* 添加这行 - 全大写更专业 */
+    opacity: 0.9; /* 添加这行 - 稍微降低亮度 */
 }
 
-.team-departments {
+.chairman-social {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
     gap: 1rem;
-    margin-top: 3rem;
+    justify-content: center;
 }
 
-.team-departments span {
-    padding: 0.75rem 1.5rem;
-    background: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 100px;
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
+.social-link {
+    padding: 0.6rem 1.2rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.social-link:hover {
+    background: rgba(198, 169, 99, 0.1);
+    border-color: #C6A963;
+    color: #C6A963;
+    transform: translateY(-2px);
 }
 
 /* Responsive for new sections */
@@ -4554,7 +4606,7 @@ body.intro-complete .title-accent::after {
     }
 
     .speaker-role {
-        font-size: 0.6552rem;
+        font-size: 0.9rem;
         margin-bottom: 0.1rem;
     }
 
@@ -4923,7 +4975,7 @@ body.intro-complete .title-accent::after {
 
     .speaker-role,
     .highlight-card-role {
-        font-size: 0.595rem;
+        font-size: 0.9rem;
     }
 
     .speaker-company,
@@ -5051,5 +5103,102 @@ body.intro-complete .title-accent::after {
     .partner-logo:focus img {
         transform: none !important;
         scale: none !important;
+    }
+}
+
+/* ==================== SPEAKERS BUTTONS CONTAINER ==================== */
+.speakers-buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem; /* 加大间距 */
+    margin-top: 3rem;
+}
+
+.become-speaker-btn {
+    background: linear-gradient(135deg, #C6A963 0%, #d4ba7a 100%);
+    color: #1a1a1a;
+    border: none;
+    padding: 1.5rem 4rem; /* 改大：上下 1.5rem，左右 4rem */
+    font-size: 1.3rem; /* 字体改大 */
+    font-weight: 700; /* 加粗 */
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.05em;
+    flex: 0 0 auto; /* 不自动伸缩 */
+}
+
+.become-speaker-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(198, 169, 99, 0.5);
+}
+
+.show-more-btn {
+    /* 次要按钮 - 改小 */
+    background: transparent !important;
+    border: 1px solid rgba(198, 169, 99, 0.4) !important; /* 边框变细 */
+    color: #C6A963 !important;
+    padding: 0.7rem 1.5rem !important; /* 改小 */
+    font-size: 0.85rem !important; /* 字体改小 */
+    border-radius: 6px !important;
+    margin-left: 1rem; /* 往右推 */
+}
+
+.show-more-btn:hover {
+    background: rgba(198, 169, 99, 0.1) !important;
+    border-color: #C6A963 !important;
+}
+
+/* 手机端垂直排列 */
+@media (max-width: 768px) {
+    .speakers-buttons-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .show-more-btn {
+        margin-left: 0 !important;
+    }
+}
+
+/* ==================== PARTNERS BUTTON ==================== */
+.partners-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+}
+
+.become-partner-btn {
+    background: linear-gradient(135deg, #C6A963 0%, #d4ba7a 100%);
+    color: #1a1a1a;
+    border: none;
+    padding: 1.5rem 4rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.become-partner-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.become-partner-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(198, 169, 99, 0.5);
+}
+
+@media (max-width: 768px) {
+    .become-partner-btn {
+        padding: 1.2rem 3rem;
+        font-size: 1.1rem;
     }
 }
