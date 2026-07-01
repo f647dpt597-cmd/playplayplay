@@ -1152,7 +1152,11 @@ if (backToTopBtn) {
 // Show More Speakers Functionality
 // ================================
 const showMoreBtn = document.getElementById('showMoreSpeakers');
-const showMoreContainer = document.querySelector('.show-more-container');
+if (showMoreBtn && document.querySelectorAll('.speaker-card-hidden').length === 0) {
+    const _c = document.querySelector('.show-more-btn');
+    if (_c) _c.style.display = 'none';
+}
+const showMoreContainer = document.querySelector('.show-more-btn');
 
 if (showMoreBtn) {
     showMoreBtn.addEventListener('click', () => {
