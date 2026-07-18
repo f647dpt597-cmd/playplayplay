@@ -12,30 +12,33 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <!-- Preload critical assets -->
-    <link rel="preload" href="assets/picturesdecoration/vp1.mp4" as="video" type="video/mp4">
-    <link rel="preload" href="assets/picturesdecoration/christianduerrspeaking.jpg" as="image">
-    <link rel="preload" href="assets/picturesdecoration/crowd_clapping.jpg" as="imae">
+    <!-- Icons, canonical & social sharing -->
+    <link rel="icon" type="image/jpeg" href="signature/fsbusinessforum_logo.jpg">
+    <link rel="apple-touch-icon" href="signature/fsbusinessforum_logo.jpg">
+    <link rel="canonical" href="https://fs-businessforum.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="FS Business Forum | Connecting Minds, Creating Future">
+    <meta property="og:description" content="Europe's premier student-led business congress. 13 &amp; 14 November 2026 at Frankfurt School of Finance &amp; Management.">
+    <meta property="og:url" content="https://fs-businessforum.com/">
+    <meta property="og:image" content="https://fs-businessforum.com/assets/picturesdecoration/vp1_poster.jpg">
+    <meta name="twitter:card" content="summary_large_image">
 
-    <!-- Fonts (loaded locally for privacy compliance) -->
+    <!-- Preload critical assets (fonts self-hosted via styles.css for GDPR compliance) -->
+    <link rel="preload" href="assets/fonts/PlayfairDisplay-Medium.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/picturesdecoration/vp1_poster.jpg" as="image">
 
-    <!-- GSAP & Plugins -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
-
-    <!-- SplitType for text animations -->
-    <script src="https://unpkg.com/split-type"></script>
-
-    <!-- Lenis Smooth Scroll -->
-    <script src="https://cdn.jsdelivr.net/gh/darkroomengineering/lenis@1.1.13/bundled/lenis.min.js"></script>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Vendor scripts (deferred, version-pinned) -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <script defer src="https://unpkg.com/split-type@0.3.4/umd/index.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/darkroomengineering/lenis@1.1.13/bundled/lenis.min.js"></script>
+    <script defer src="script.js"></script>
+
+    <!-- Without JS the intro overlay would permanently cover the page -->
+    <noscript><style>.intro-overlay{display:none !important;}</style></noscript>
 </head>
 <body>
 
@@ -45,9 +48,8 @@
     <!-- Grain Overlay for Premium Feel -->
     <div class="grain-overlay"></div>
 
-    <!-- Custom Cursor -->
+    <!-- Custom Cursor (desktop pointer devices only) -->
     <div class="cursor"></div>
-    <div class="cursor-follower"></div>
 
     <!-- Intro Video Overlay -->
     <div class="intro-overlay" id="introOverlay">
@@ -62,21 +64,20 @@
         </div>
     </div>
 
-    <!-- Preload Images During Intro -->
-    <div style="display:none;">
+    <!-- Preload Images During Intro (must stay eager: display:none + lazy would never load) -->
+    <div style="display:none;" aria-hidden="true">
         <img src="assets/picturesdecoration/christianduerrspeaking.jpg" alt="">
         <img src="assets/picturesdecoration/crowd_clapping.jpg" alt="">
         <img src="assets/picturesdecoration/happycrowed.jpg" alt="">
         <img src="assets/picturesdecoration/thyssenkrupp_ceo_receives_present.jpg" alt="">
         <img src="assets/picturesdecoration/swisschris_hedgefundhenning.jpg" alt="">
-        <img src="assets/picturesdecoration/team.png" alt="">
     </div>
 
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
             <a href="#hero" class="nav-logo">
-                <img src="assets/FS_Business Forum_mit.png" alt="FS Logo" style="height: 48px; width: 210px; position: relative; top: 6px;">
+                <img src="assets/FS_Business_Forum_mit.png" alt="FS Logo" style="height: 48px; width: 210px; position: relative; top: 6px;">
             </a>
             <div class="nav-links">
                 <a href="#speakers" class="nav-link">Speakers</a>
@@ -84,17 +85,17 @@
                 <a href="#experience" class="nav-link">Experience</a>
                 <a href="#partners" class="nav-link">Partners</a>
                 <a href="#team" class="nav-link">Team</a>
-                <a href="#contact" class="nav-link nav-link-cta">Get Tickets</a>
+                <a href="tickets.html" class="nav-link nav-link-cta">Get Tickets</a>
             </div>
-            <div class="nav-menu-btn">
+            <button class="nav-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
                 <span></span>
                 <span></span>
-            </div>
+            </button>
         </div>
     </nav>
 
     <!-- Mobile Menu -->
-    <div class="mobile-menu">
+    <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-content">
             <a href="#speakers" class="mobile-link">Speakers</a>
             <a href="#about" class="mobile-link">About</a>
@@ -108,7 +109,7 @@
     <!-- Hero Section -->
     <section id="hero" class="hero">
         <div class="hero-video-container">
-            <video autoplay muted loop playsinline class="hero-video">
+            <video autoplay muted loop playsinline preload="metadata" poster="assets/picturesdecoration/vp1_poster.jpg" class="hero-video">
                 <source src="assets/picturesdecoration/vp1.mp4" type="video/mp4">
             </video>
             <div class="hero-overlay"></div>
@@ -119,8 +120,9 @@
                 <span class="title-line">Connecting Minds</span>
                 <span class="title-line title-accent">Creating Future</span>
             </h1>
+            <p class="hero-date">13 &amp; 14 November 2026 &middot; Frankfurt am Main</p>
             <p class="hero-description">
-                Where tomorrow’s leaders meet today’s visionaries.<br>Two transformative days of keynotes, workshops, panels and networking<br>at the Frankfurt School of Finance &amp; Management.
+                Where tomorrow’s leaders meet today’s visionaries.<br>Two transformative days of keynotes, workshops, panels and networking at the<br>Frankfurt School of Finance &amp; Management.
             </p>
             <div class="hero-stats">
                 <div class="stat">
@@ -218,9 +220,9 @@
                 <!-- Andrea Orcel Highlight -->
                 <div class="speaker-highlight-card corner-accent">
                     <div class="highlight-card-image">
-                        <img src="assets/speaker/01_andrea_orcel_ceo_unicredit.png" alt="Andrea Orcel">
+                        <img loading="lazy" decoding="async" src="assets/speaker/01_andrea_orcel_ceo_unicredit.png" alt="Andrea Orcel">
                         <div class="highlight-card-logo">
-                            <img src="assets/companiesofspeakers/UniCredit.png" alt="UniCredit">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/UniCredit.png" alt="UniCredit">
                         </div>
                         <span class="highlight-card-tag">Keynote Speaker</span>
                     </div>
@@ -234,9 +236,9 @@
                 <!-- Andre Munkelt Highlight -->
                 <div class="speaker-highlight-card corner-accent">
                     <div class="highlight-card-image">
-                        <img src="assets/speaker/02_andre_munkelt_ceo_morganstanley.png" alt="Andre Munkelt">
+                        <img loading="lazy" decoding="async" src="assets/speaker/02_andre_munkelt_ceo_morganstanley.png" alt="Andre Munkelt">
                         <div class="highlight-card-logo">
-                            <img src="assets/companiesofspeakers/Morgan_Stanley.png" alt="Morgan Stanley">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/Morgan_Stanley.png" alt="Morgan Stanley">
                         </div>
                         <span class="highlight-card-tag">Keynote Speaker</span>
                     </div>
@@ -250,9 +252,9 @@
                 <!-- Miguel Borrego (ThyssenKrupp) Highlight -->
                 <div class="speaker-highlight-card corner-accent">
                     <div class="highlight-card-image">
-                        <img src="assets/speaker/04_miguel_borrego_ceo_thyssenkrupp.png" alt="Miguel Borrego">
+                        <img loading="lazy" decoding="async" src="assets/speaker/04_miguel_borrego_ceo_thyssenkrupp.png" alt="Miguel Borrego">
                         <div class="highlight-card-logo">
-                            <img src="assets/companiesofspeakers/thyssenkrupp.png" alt="thyssenkrupp">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/thyssenkrupp.png" alt="thyssenkrupp">
                         </div>
                         <span class="highlight-card-tag">Keynote Speaker</span>
                     </div>
@@ -269,9 +271,9 @@
                 <!-- Speaker: Frank Vogel -->
                 <div class="speaker-card" data-speaker="3">
                     <div class="speaker-image">
-                        <img src="assets/speaker/03_frank_vogel_ceo_bnpparibas.svg" alt="Frank Vogel">
+                        <img loading="lazy" decoding="async" src="assets/speaker/03_frank_vogel_ceo_bnpparibas.svg" alt="Frank Vogel">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/BNP_Paribas.png" alt="BNP Paribas">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/BNP_Paribas.png" alt="BNP Paribas">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -284,9 +286,9 @@
                 <!-- Speaker: Jens Koch -->
                 <div class="speaker-card" data-speaker="5">
                     <div class="speaker-image">
-                        <img src="assets/speaker/05_jens_koch_ceo_hk.svg" alt="Jens Koch">
+                        <img loading="lazy" decoding="async" src="assets/speaker/05_jens_koch_ceo_hk.svg" alt="Jens Koch">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/Heckler_&_Koch.png" alt="Heckler & Koch">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/Heckler_and_Koch.png" alt="Heckler & Koch">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -299,9 +301,9 @@
                 <!-- Speaker: Brian Heath -->
                 <div class="speaker-card" data-speaker="6">
                     <div class="speaker-image">
-                        <img src="assets/speaker/06_brian_heath_generalconsul_usa.png" alt="Brian Heath">
+                        <img loading="lazy" decoding="async" src="assets/speaker/06_brian_heath_generalconsul_usa.png" alt="Brian Heath">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/US_Flagge.png" alt="United States">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/US_Flagge.png" alt="United States">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -314,9 +316,9 @@
                 <!-- Speaker: Christian Duerr -->
                 <div class="speaker-card" data-speaker="7">
                     <div class="speaker-image">
-                        <img src="assets/speaker/07_christian_duerr_fdp_chef.svg" alt="Christian Duerr">
+                        <img loading="lazy" decoding="async" src="assets/speaker/07_christian_duerr_fdp_chef.svg" alt="Christian Duerr">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/FDP.png" alt="FDP">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/FDP.png" alt="FDP">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -329,9 +331,9 @@
                 <!-- Speaker: Christian Roehl -->
                 <div class="speaker-card" data-speaker="10">
                     <div class="speaker-image">
-                        <img src="assets/speaker/10_christian _roehl_cheifeconomist_scalablecapital.png" alt="Christian Roehl">
+                        <img loading="lazy" decoding="async" src="assets/speaker/10_christian_roehl_chiefeconomist_scalablecapital.png" alt="Christian Roehl">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/Scalable_Capital.png" alt="Scalable Capital">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/Scalable_Capital.png" alt="Scalable Capital">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -344,7 +346,7 @@
                 <!-- Speaker: Swiss Chris -->
                 <div class="speaker-card" data-speaker="8">
                     <div class="speaker-image">
-                        <img src="assets/speaker/08_swiss_chris_influencer.svg" alt="Swiss Chris">
+                        <img loading="lazy" decoding="async" src="assets/speaker/08_swiss_chris_influencer.svg" alt="Swiss Chris">
                     </div>
                     <div class="speaker-info">
                         <h3 class="speaker-name">Swiss Chris</h3>
@@ -356,7 +358,7 @@
                 <!-- Speaker: Hedgefond Henning -->
                 <div class="speaker-card" data-speaker="9">
                     <div class="speaker-image">
-                        <img src="assets/speaker/09_hedgefond_henning_influencer.png" alt="Hedgefonds Henning">
+                        <img loading="lazy" decoding="async" src="assets/speaker/09_hedgefond_henning_influencer.png" alt="Hedgefonds Henning">
                     </div>
                     <div class="speaker-info">
                         <h3 class="speaker-name">Hedgefonds Henning</h3>
@@ -368,9 +370,9 @@
                 <!-- Speaker: Bettina Stark-Watzinger -->
                 <div class="speaker-card" data-speaker="11">
                     <div class="speaker-image">
-                        <img src="assets/speaker/11Bettina_Stark-Watzinger_Former_Federal_Minister_for_Education_and_Research_FDP.png" alt="Bettina Stark-Watzinger">
+                        <img loading="lazy" decoding="async" src="assets/speaker/11Bettina_Stark-Watzinger_Former_Federal_Minister_for_Education_and_Research_FDP.png" alt="Bettina Stark-Watzinger">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/FDP.png" alt="FDP">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/FDP.png" alt="FDP">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -383,9 +385,9 @@
                 <!-- Speaker: Thomas de Maizière -->
                 <div class="speaker-card" data-speaker="12">
                     <div class="speaker-image">
-                        <img src="assets/speaker/12Thomas_de_Maizie╠Çre_Former_Federal_Minister_of_the_Interior_and_Defense_CDU.png" alt="Thomas de Maizière">
+                        <img loading="lazy" decoding="async" src="assets/speaker/12_thomas_de_maiziere_former_federal_minister_cdu.png" alt="Thomas de Maizière">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/CDU.png" alt="CDU">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/CDU.png" alt="CDU">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -398,9 +400,9 @@
                 <!-- Speaker: Marco Buschmann -->
                 <div class="speaker-card" data-speaker="13">
                     <div class="speaker-image">
-                        <img src="assets/speaker/13Marco_Buschmann_Former_Federal_Minister_of_Justice_of_Germany_FDP.png" alt="Marco Buschmann">
+                        <img loading="lazy" decoding="async" src="assets/speaker/13Marco_Buschmann_Former_Federal_Minister_of_Justice_of_Germany_FDP.png" alt="Marco Buschmann">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/FDP.png" alt="FDP">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/FDP.png" alt="FDP">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -413,9 +415,9 @@
                 <!-- Speaker: Franz Josef Jung -->
                 <div class="speaker-card" data-speaker="14">
                     <div class="speaker-image">
-                        <img src="assets/speaker/14Franz_Josef_Jung_Former_Federal_Minister_of_Defence_of_Germany_CDU.png" alt="Franz Josef Jung">
+                        <img loading="lazy" decoding="async" src="assets/speaker/14Franz_Josef_Jung_Former_Federal_Minister_of_Defence_of_Germany_CDU.png" alt="Franz Josef Jung">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/CDU.png" alt="CDU">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/CDU.png" alt="CDU">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -428,9 +430,9 @@
                 <!-- Speaker: Jack Nasher -->
                 <div class="speaker-card" data-speaker="15">
                     <div class="speaker-image">
-                        <img src="assets/speaker/15Jack_Nasher_Negotiation_Advisor_and_Author.png" alt="Jack Nasher">
+                        <img loading="lazy" decoding="async" src="assets/speaker/15Jack_Nasher_Negotiation_Advisor_and_Author.png" alt="Jack Nasher">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/Jack_Nasher.png" alt="Jack Nasher">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/Jack_Nasher.png" alt="Jack Nasher">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -443,9 +445,9 @@
                 <!-- Speaker: Claudia Oeking -->
                 <div class="speaker-card" data-speaker="16">
                     <div class="speaker-image">
-                        <img src="assets/speaker/16Claudia_Oeking_Member_of_the_supervisory_board_Airbus_Defence_and_Space_head_public_affairs_airbus_germany.png" alt="Claudia Oeking">
+                        <img loading="lazy" decoding="async" src="assets/speaker/16Claudia_Oeking_Member_of_the_supervisory_board_Airbus_Defence_and_Space_head_public_affairs_airbus_germany.png" alt="Claudia Oeking">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/Airbus.png" alt="Airbus">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/Airbus.png" alt="Airbus">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -458,7 +460,7 @@
                 <!-- Speaker: Andreas Grassl -->
                 <div class="speaker-card" data-speaker="17">
                     <div class="speaker-image">
-                        <img src="assets/speaker/17Andreas_Grassl_Geopolitical_Analyst.png" alt="Andreas Grassl">
+                        <img loading="lazy" decoding="async" src="assets/speaker/17Andreas_Grassl_Geopolitical_Analyst.png" alt="Andreas Grassl">
                     </div>
                     <div class="speaker-info">
                         <h3 class="speaker-name">Andreas Grassl</h3>
@@ -470,9 +472,9 @@
                 <!-- Speaker: Maika Jahn -->
                 <div class="speaker-card" data-speaker="18">
                     <div class="speaker-image">
-                        <img src="assets/speaker/18_Maika_Jahn_COO_Member of management board_BlackRocksvg.png" alt="Maika Jahn">
+                        <img loading="lazy" decoding="async" src="assets/speaker/18_Maika_Jahn_COO_Member_of_management_board_BlackRocksvg.png" alt="Maika Jahn">
                         <div class="speaker-logo-badge">
-                            <img src="assets/corporates/BlackRock.png" alt="BlackRock">
+                            <img loading="lazy" decoding="async" src="assets/corporates/BlackRock.png" alt="BlackRock">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -485,9 +487,9 @@
                 <!-- Speaker: Dr. Katharina Seiler -->
                 <div class="speaker-card" data-speaker="19">
                     <div class="speaker-image">
-                        <img src="assets/speaker/19_Dr_Katharina_Seiler_Representative of the Supervisory Board_DWS.png" alt="Dr. Katharina Seiler">
+                        <img loading="lazy" decoding="async" src="assets/speaker/19_Dr_Katharina_Seiler_Representative_of_the_Supervisory_Board_DWS.png" alt="Dr. Katharina Seiler">
                         <div class="speaker-logo-badge">
-                            <img src="assets/corporates/DWS_Logo.png" alt="DWS">
+                            <img loading="lazy" decoding="async" src="assets/corporates/DWS_Logo.png" alt="DWS">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -501,9 +503,9 @@
                 <!-- Speaker: Maren Schmitz -->
                 <div class="speaker-card speaker-card-hidden" data-speaker="20">
                     <div class="speaker-image">
-                        <img src="assets/speaker/20_Maren_Schmitz_Head of Asset Management_KPMG.png" alt="Maren Schmitz">
+                        <img loading="lazy" decoding="async" src="assets/speaker/20_Maren_Schmitz_Head_of_Asset_Management_KPMG.png" alt="Maren Schmitz">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/KPMG_Logo.png" alt="KPMG">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/KPMG_Logo.png" alt="KPMG">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -516,9 +518,9 @@
                 <!-- Speaker: Harald Christ -->
                 <div class="speaker-card speaker-card-hidden" data-speaker="21">
                     <div class="speaker-image">
-                        <img src="assets/speaker/21_Harald_Christ_CEO &  Founder_Christ Capital + Supervisory Board Member_Commerzbank + Vorsitzender des Investitions- und Innovationsbeirats_Bundesministerium der Finanzen.png" alt="Harald Christ">
+                        <img loading="lazy" decoding="async" src="assets/speaker/21_Harald_Christ_CEO_and_Founder_Christ_Capital_Supervisory_Board_Member_Commerzbank_Vorsitzender_des_Investitions-_und_Innovationsbeirats_Bundesministerium_der_Finanzen.png" alt="Harald Christ">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/Christ_Capital_Logo.png" alt="Christ Capital">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/Christ_Capital_Logo.png" alt="Christ Capital">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -531,9 +533,9 @@
                 <!-- Speaker: Ulrich Thiem -->
                 <div class="speaker-card speaker-card-hidden" data-speaker="22">
                     <div class="speaker-image">
-                        <img src="assets/speaker/22_Ulrich_Thiem_Managing Director_Porsche Ventures.png" alt="Ulrich Thiem">
+                        <img loading="lazy" decoding="async" src="assets/speaker/22_Ulrich_Thiem_Managing_Director_Porsche_Ventures.png" alt="Ulrich Thiem">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/Porsche_Ventures_Logo.png" alt="Porsche Ventures">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/Porsche_Ventures_Logo.png" alt="Porsche Ventures">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -546,9 +548,9 @@
                 <!-- Speaker: Holger Kneisel -->
                 <div class="speaker-card speaker-card-hidden" data-speaker="23">
                     <div class="speaker-image">
-                        <img src="assets/speaker/23_Holger_Kneisel_Member of Executive Board_KPMG.svg" alt="Holger Kneisel">
+                        <img loading="lazy" decoding="async" src="assets/speaker/23_Holger_Kneisel_Member_of_Executive_Board_KPMG.svg" alt="Holger Kneisel">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/KPMG_Logo.png" alt="KPMG">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/KPMG_Logo.png" alt="KPMG">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -561,9 +563,9 @@
                 <!-- Speaker: Wilhelm Schmid -->
                 <div class="speaker-card speaker-card-hidden" data-speaker="24">
                     <div class="speaker-image">
-                        <img src="assets/speaker/24_Wilhelm_Schmid_CEO_A_Lange_Soehne.png" alt="Wilhelm Schmid">
+                        <img loading="lazy" decoding="async" src="assets/speaker/24_Wilhelm_Schmid_CEO_A_Lange_Soehne.png" alt="Wilhelm Schmid">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/A_Lange_Soehne_Logo.png" alt="A. Lange & Söhne">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/A_Lange_Soehne_Logo.png" alt="A. Lange & Söhne">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -576,9 +578,9 @@
                 <!-- Speaker: Kerstin Erbe -->
                 <div class="speaker-card speaker-card-hidden" data-speaker="25">
                     <div class="speaker-image">
-                        <img src="assets/speaker/25_Kerstin_Erbe_CEO_DM.png" alt="Kerstin Erbe">
+                        <img loading="lazy" decoding="async" src="assets/speaker/25_Kerstin_Erbe_CEO_DM.png" alt="Kerstin Erbe">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/dm_Logo.png" alt="dm">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/dm_Logo.png" alt="dm">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -591,9 +593,9 @@
                 <!-- Speaker: Jaqueline Kabuth -->
                 <div class="speaker-card speaker-card-hidden" data-speaker="26">
                     <div class="speaker-image">
-                        <img src="assets/speaker/26_Jaqueline_Kabuth_Vice President Equity Derivatives & Cross Asset Solutions_Citi.png" alt="Jaqueline Kabuth">
+                        <img loading="lazy" decoding="async" src="assets/speaker/26_Jaqueline_Kabuth_Vice_President_Equity_Derivatives_and_Cross_Asset_Solutions_Citi.png" alt="Jaqueline Kabuth">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/citi_Logo.png" alt="Citi">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/citi_Logo.png" alt="Citi">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -606,9 +608,9 @@
                 <!-- Speaker: Clemens Graf von Hoyos -->
                 <div class="speaker-card speaker-card-hidden" data-speaker="27">
                     <div class="speaker-image">
-                        <img src="assets/speaker/27_Clemes_Graf von Hoyos_Unternehmensinhaber_KniggeAkademie_+_Vorstandsvorsitzender_Deutsche-Knigge-Gesellschafte e.V..png" alt="Clemens Graf von Hoyos">
+                        <img loading="lazy" decoding="async" src="assets/speaker/27_Clemes_Graf_von_Hoyos_Unternehmensinhaber_KniggeAkademie_Vorstandsvorsitzender_Deutsche-Knigge-Gesellschafte_e_V_.png" alt="Clemens Graf von Hoyos">
                         <div class="speaker-logo-badge">
-                            <img src="assets/companiesofspeakers/Deutsche_Knigge_Gesellschaft_e.V._Logo.png" alt="Deutsche Knigge Gesellschaft e.V.">
+                            <img loading="lazy" decoding="async" src="assets/companiesofspeakers/Deutsche_Knigge_Gesellschaft_e.V._Logo.png" alt="Deutsche Knigge Gesellschaft e.V.">
                         </div>
                     </div>
                     <div class="speaker-info">
@@ -621,7 +623,6 @@
 
             <!-- Buttons Container -->
             <div class="speakers-buttons-container">
-                <!-- 新按钮：Become a Speaker (居中) -->
                 <a href="mailto:speaker@fs-businessforum.com" class="nav-link-cta" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 2rem; text-decoration: none;">
                     Become a Speaker
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
@@ -629,7 +630,6 @@
                     </svg>
                 </a>
 
-                <!-- 原按钮：Show More Speakers (移到右边) -->
                 <button class="btn btn-secondary show-more-btn" id="showMoreSpeakers">
                     <span>Show More Speakers</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -676,13 +676,13 @@
             <!-- Photo Gallery - Full images -->
             <div class="about-photo-grid">
                 <div class="photo-grid-item featured">
-                    <img src="assets/picturesdecoration/3womencoffedrinkingfyeur.jpg" alt="Networking">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/3womencoffedrinkingfyeur.jpg" alt="Networking">
                 </div>
                 <div class="photo-grid-item">
-                    <img src="assets/picturesdecoration/moderatorandsittingcrowd.jpg" alt="Forum session">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/moderatorandsittingcrowd.jpg" alt="Forum session">
                 </div>
                 <div class="photo-grid-item">
-                    <img src="assets/picturesdecoration/happycrowed.jpg" alt="Event atmosphere">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/happycrowed.jpg" alt="Event atmosphere">
                 </div>
             </div>
 
@@ -753,7 +753,7 @@
     <!-- Defense Panel Highlight -->
     <section class="panel-highlight">
         <div class="panel-bg">
-            <img src="assets/picturesdecoration/defensepanelguests.jpg" alt="Defense Panel">
+            <img loading="lazy" decoding="async" src="assets/picturesdecoration/defensepanelguests.jpg" alt="Defense Panel">
         </div>
         <div class="panel-content">
             <span class="panel-tag">Expert Panel</span>
@@ -765,7 +765,7 @@
     <!-- Geo Panel Highlight -->
     <section class="panel-highlight reverse">
         <div class="panel-bg">
-            <img src="assets/picturesdecoration/geopanelguestsspeaking.png" alt="Geopolitics Panel">
+            <img loading="lazy" decoding="async" src="assets/picturesdecoration/geopanelguestsspeaking.png" alt="Geopolitics Panel">
         </div>
         <div class="panel-content">
             <span class="panel-tag">Expert Panel</span>
@@ -777,7 +777,7 @@
     <!-- Finance Panel Highlight -->
     <section class="panel-highlight">
         <div class="panel-bg">
-            <img src="assets/picturesdecoration/financepanel.jpg" alt="Finance Panel">
+            <img loading="lazy" decoding="async" src="assets/picturesdecoration/financepanel.jpg" alt="Finance Panel">
         </div>
         <div class="panel-content">
             <span class="panel-tag">Expert Panel</span>
@@ -789,7 +789,7 @@
     <!-- Swiss Chris & Hedgefond Henning Live Q&A -->
     <section class="panel-highlight reverse">
         <div class="panel-bg">
-            <img src="assets/picturesdecoration/hedgefondgennignswisschris_liveq&a.jpg" alt="Live Q&A" class="img-position-top">
+            <img loading="lazy" decoding="async" src="assets/picturesdecoration/hedgefondhenning_swisschris_liveqa.jpg" alt="Live Q&A" class="img-position-top">
         </div>
         <div class="panel-content">
             <span class="panel-tag">Live Q&A</span>
@@ -826,87 +826,87 @@
             <div class="experience-gallery">
                 <!-- Row 1: Featured landscape - Social (prominent female) -->
                 <div class="gallery-item featured">
-                    <img src="assets/picturesdecoration/afterparty_fomo_social_wineglasseds.jpg" alt="Social">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/afterparty_fomo_social_wineglasseds.jpg" alt="Social">
                 </div>
                 <!-- Row 1: Two landscape images -->
                 <div class="gallery-item">
-                    <img src="assets/picturesdecoration/whinetastingdesk.jpg" alt="Wine Tasting">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/whinetastingdesk.jpg" alt="Wine Tasting">
                 </div>
                 <div class="gallery-item">
-                    <img src="assets/picturesdecoration/afterpartydj.jpg" alt="Afterparty DJ">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/afterpartydj.jpg" alt="Afterparty DJ">
                 </div>
 
                 <!-- Row 2: Two portrait images side by side -->
                 <div class="gallery-item portrait">
-                    <img src="assets/picturesdecoration/moderator.jpg" alt="Moderator">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/moderator.jpg" alt="Moderator">
                 </div>
                 <div class="gallery-item portrait">
-                    <img src="assets/picturesdecoration/christianduerrspeaking.jpg" alt="Keynote">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/christianduerrspeaking.jpg" alt="Keynote">
                 </div>
 
                 <!-- Row 2: Two landscape -->
                 <div class="gallery-item">
-                    <img src="assets/picturesdecoration/crowd_clapping.jpg" alt="Audience">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/crowd_clapping.jpg" alt="Audience">
                 </div>
                 <div class="gallery-item">
-                    <img src="assets/picturesdecoration/happycrowed.jpg" alt="Happy Crowd">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/happycrowed.jpg" alt="Happy Crowd">
                 </div>
 
                 <!-- Row 3: Featured landscape - VIP Event -->
                 <div class="gallery-item featured">
-                    <img src="assets/picturesdecoration/alexanderdoll_profstieglitz_andreaorcelpicture.jpg" alt="CEO Event">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/alexanderdoll_profstieglitz_andreaorcelpicture.jpg" alt="CEO Event">
                 </div>
                 <!-- Two landscape -->
                 <div class="gallery-item">
-                    <img src="assets/picturesdecoration/thyssenkrupp_ceo_with_adnreas_grassl.jpg" alt="CEO Meeting">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/thyssenkrupp_ceo_with_adnreas_grassl.jpg" alt="CEO Meeting">
                 </div>
                 <div class="gallery-item">
-                    <img src="assets/picturesdecoration/guests_oplaying_kicker.jpg" alt="Recreation">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/guests_oplaying_kicker.jpg" alt="Recreation">
                 </div>
 
                 <!-- Row 4: Two portrait images side by side -->
                 <div class="gallery-item portrait">
-                    <img src="assets/picturesdecoration/coffebike.jpg" alt="Coffee">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/coffebike.jpg" alt="Coffee">
                 </div>
                 <div class="gallery-item portrait">
-                    <img src="assets/picturesdecoration/companyworkshop.jpg" alt="Workshop">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/companyworkshop.jpg" alt="Workshop">
                 </div>
 
                 <!-- Two landscape -->
                 <div class="gallery-item">
-                    <img src="assets/picturesdecoration/defensepanelmoderator.jpg" alt="Panel Moderator">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/defensepanelmoderator.jpg" alt="Panel Moderator">
                 </div>
                 <div class="gallery-item">
-                    <img src="assets/picturesdecoration/the_3_chairmen_and_moderator.jpg" alt="Organizers">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/the_3_chairmen_and_moderator.jpg" alt="Organizers">
                 </div>
 
                 <!-- Row 5: Featured landscape -->
                 <div class="gallery-item featured">
-                    <img src="assets/picturesdecoration/guest_locked_in.jpg" alt="Engaged Guest">
+                    <img loading="lazy" decoding="async" src="assets/picturesdecoration/guest_locked_in.jpg" alt="Engaged Guest">
                 </div>
 
     <!-- Two portrait images side by side -->
     <div class="gallery-item portrait">
-        <img src="assets/picturesdecoration/dj.jpg" alt="DJ">
+        <img loading="lazy" decoding="async" src="assets/picturesdecoration/dj.jpg" alt="DJ">
     </div>
     <div class="gallery-item portrait">
-        <img src="assets/picturesdecoration/thyssenkrupp_ceo_receives_present.jpg" alt="CEO Gift">
+        <img loading="lazy" decoding="async" src="assets/picturesdecoration/thyssenkrupp_ceo_receives_present.jpg" alt="CEO Gift">
     </div>
 
     <!-- Two portrait - g1 and g2 side by side -->
     <div class="gallery-item portrait">
-        <img src="assets/picturesdecoration/g1.jpg" alt="Guest">
+        <img loading="lazy" decoding="async" src="assets/picturesdecoration/g1.jpg" alt="Guest">
     </div>
     <div class="gallery-item portrait">
-        <img src="assets/picturesdecoration/g2.jpg" alt="Guest">
+        <img loading="lazy" decoding="async" src="assets/picturesdecoration/g2.jpg" alt="Guest">
     </div>
 
     <!-- Two more landscape -->
     <div class="gallery-item">
-        <img src="assets/picturesdecoration/moderatorandsittingcrowd.jpg" alt="Forum session">
+        <img loading="lazy" decoding="async" src="assets/picturesdecoration/moderatorandsittingcrowd.jpg" alt="Forum session">
     </div>
     <div class="gallery-item">
-        <img src="assets/picturesdecoration/g3.jpg" alt="Guest">
+        <img loading="lazy" decoding="async" src="assets/picturesdecoration/g3.jpg" alt="Guest">
     </div>
 </div>
         </div>
@@ -938,109 +938,109 @@
 
             <div class="partners-grid">
                 <div class="partner-logo">
-                    <img src="assets/corporates/About_You_Logo.png" alt="About You">
+                    <img loading="lazy" decoding="async" src="assets/corporates/About_You_Logo.png" alt="About You">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Accenture_Logo.png" alt="Accenture">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Accenture_Logo.png" alt="Accenture">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Accuracy_Logo.png" alt="Accuracy">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Accuracy_Logo.png" alt="Accuracy">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Bakertilly_Logo.png" alt="Baker Tilly">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Bakertilly_Logo.png" alt="Baker Tilly">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/BASF_Logo.png" alt="BASF">
+                    <img loading="lazy" decoding="async" src="assets/corporates/BASF_Logo.png" alt="BASF">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/BearingPoint_Logo.png" alt="BearingPoint">
+                    <img loading="lazy" decoding="async" src="assets/corporates/BearingPoint_Logo.png" alt="BearingPoint">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Berenberg_Logo.png" alt="Berenberg">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Berenberg_Logo.png" alt="Berenberg">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/BlackRock.png" alt="BlackRock">
+                    <img loading="lazy" decoding="async" src="assets/corporates/BlackRock.png" alt="BlackRock">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/BNP_Paribas_Logo.png" alt="BNP Paribas">
+                    <img loading="lazy" decoding="async" src="assets/corporates/BNP_Paribas_Logo.png" alt="BNP Paribas">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Carl_Finance_Logo.png" alt="Carl Finance">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Carl_Finance_Logo.png" alt="Carl Finance">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Deloitte.png" alt="Deloitte">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Deloitte.png" alt="Deloitte">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Dr._Oetker.png" alt="Dr. Oetker">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Dr._Oetker.png" alt="Dr. Oetker">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/DTE_Consult_Logo.png" alt="DTE Consult">
+                    <img loading="lazy" decoding="async" src="assets/corporates/DTE_Consult_Logo.png" alt="DTE Consult">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/DWS_Logo.png" alt="DWS">
+                    <img loading="lazy" decoding="async" src="assets/corporates/DWS_Logo.png" alt="DWS">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/DZ_Bank.png" alt="DZ Bank">
+                    <img loading="lazy" decoding="async" src="assets/corporates/DZ_Bank.png" alt="DZ Bank">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Enpal_Logo.png" alt="Enpal">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Enpal_Logo.png" alt="Enpal">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/EY_Logo.png" alt="EY">
+                    <img loading="lazy" decoding="async" src="assets/corporates/EY_Logo.png" alt="EY">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Frankfurt_School_of_Finance_&_Management.png" alt="Frankfurt School">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Frankfurt_School_of_Finance_and_Management.png" alt="Frankfurt School">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Frankfurter_Sparkasse.png" alt="Frankfurter Sparkasse">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Frankfurter_Sparkasse.png" alt="Frankfurter Sparkasse">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/FTI_Andersch_Logo.png" alt="FTI Andersch">
+                    <img loading="lazy" decoding="async" src="assets/corporates/FTI_Andersch_Logo.png" alt="FTI Andersch">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Futury_Logo.png" alt="Futury">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Futury_Logo.png" alt="Futury">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/ING.png" alt="ING">
+                    <img loading="lazy" decoding="async" src="assets/corporates/ING.png" alt="ING">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Lime.png" alt="Lime">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Lime.png" alt="Lime">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Longines.png" alt="Longines">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Longines.png" alt="Longines">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Metzler_Logo.png" alt="Metzler">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Metzler_Logo.png" alt="Metzler">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Nivea.png" alt="Nivea">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Nivea.png" alt="Nivea">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/ODDO_BHF.png" alt="ODDO BHF">
+                    <img loading="lazy" decoding="async" src="assets/corporates/ODDO_BHF.png" alt="ODDO BHF">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Pfungstaedter.png" alt="Pfungstaedter">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Pfungstaedter.png" alt="Pfungstaedter">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/picnic_Logo.png" alt="Picnic">
+                    <img loading="lazy" decoding="async" src="assets/corporates/picnic_Logo.png" alt="Picnic">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/PwC.png" alt="PwC">
+                    <img loading="lazy" decoding="async" src="assets/corporates/PwC.png" alt="PwC">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Roland_Berger_Logo.png" alt="Roland Berger">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Roland_Berger_Logo.png" alt="Roland Berger">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Upsters.png" alt="Upsters">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Upsters.png" alt="Upsters">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/Verival.png" alt="Verival">
+                    <img loading="lazy" decoding="async" src="assets/corporates/Verival.png" alt="Verival">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/WTS_Logo.png" alt="WTS">
+                    <img loading="lazy" decoding="async" src="assets/corporates/WTS_Logo.png" alt="WTS">
                 </div>
                 <div class="partner-logo">
-                    <img src="assets/corporates/XTP_Logo.png" alt="XTP">
+                    <img loading="lazy" decoding="async" src="assets/corporates/XTP_Logo.png" alt="XTP">
                 </div>
             </div>
             <!-- Become a Partner Button -->
@@ -1079,62 +1079,62 @@
 
             <div class="chairmen-grid">
                 <div class="chairman-card">
-                    <div class="chairman-avatar"><img src="assets/teamlead/team_leaders/jakob_final.jpg" alt="Jakob Brötz"></div>
+                    <div class="chairman-avatar"><img loading="lazy" decoding="async" src="assets/teamlead/team_leaders/jakob_final.jpg" alt="Jakob Brötz"></div>
                     <h3>Jakob Brötz</h3>
                     <p>Chairman</p>
                     <div class="chairman-social">
-                        <a href="https://www.linkedin.com/in/jakob-broetz/" target="_blank" class="social-link">LINKEDIN</a>
+                        <a href="https://www.linkedin.com/in/jakob-broetz/" target="_blank" rel="noopener noreferrer" class="social-link">LINKEDIN</a>
                         <a href="mailto:jakob.broetz@fs-businessforum.com" class="social-link">EMAIL</a>
                     </div>
                 </div>
 
                 <div class="chairman-card">
-                    <div class="chairman-avatar"><img src="assets/teamlead/team_leaders/sarah_final.jpg" alt="Sarah Münker"></div>
+                    <div class="chairman-avatar"><img loading="lazy" decoding="async" src="assets/teamlead/team_leaders/sarah_final.jpg" alt="Sarah Münker"></div>
                     <h3>Sarah Münker</h3>
                     <p>Chairwoman</p>
                     <div class="chairman-social">
-                        <a href="https://www.linkedin.com/in/sarah-münker/" target="_blank" class="social-link">LINKEDIN</a>
+                        <a href="https://www.linkedin.com/in/sarah-münker/" target="_blank" rel="noopener noreferrer" class="social-link">LINKEDIN</a>
                         <a href="mailto:sarah.muenker@fs-businessforum.com" class="social-link">EMAIL</a>
                     </div>
                 </div>
 
 
                 <div class="chairman-card">
-                    <div class="chairman-avatar"><img src="assets/teamlead/team_leaders/Cedrik_final.jpg" alt="Cedrik Eggers"></div>
+                    <div class="chairman-avatar"><img loading="lazy" decoding="async" src="assets/teamlead/team_leaders/Cedrik_final.jpg" alt="Cedrik Eggers"></div>
                     <h3>Cedrik Eggers</h3>
                     <p>Head of Corporate Relations</p>
                     <div class="chairman-social">
-                        <a href="https://www.linkedin.com/in/cedrikeggers/" target="_blank" class="social-link">LINKEDIN</a>
+                        <a href="https://www.linkedin.com/in/cedrikeggers/" target="_blank" rel="noopener noreferrer" class="social-link">LINKEDIN</a>
                         <a href="mailto:cedrik.eggers@fs-businessforum.com" class="social-link">EMAIL</a>
                     </div>
                 </div>
 
                 <div class="chairman-card">
-                    <div class="chairman-avatar"><img src="assets/teamlead/team_leaders/Konstantin_final.jpg" alt="Konstantin Sporkmann"></div>
+                    <div class="chairman-avatar"><img loading="lazy" decoding="async" src="assets/teamlead/team_leaders/Konstantin_final.jpg" alt="Konstantin Sporkmann"></div>
                     <h3>Konstantin Sporkmann</h3>
                     <p>Head of Speaker Relations</p>
                     <div class="chairman-social">
-                        <a href="https://www.linkedin.com/in/konstantin-sporkmann" target="_blank" class="social-link">LINKEDIN</a>
+                        <a href="https://www.linkedin.com/in/konstantin-sporkmann" target="_blank" rel="noopener noreferrer" class="social-link">LINKEDIN</a>
                         <a href="mailto:konstantin.sporkmann@fs-businessforum.com" class="social-link">EMAIL</a>
                     </div>
                 </div>
 
                 <div class="chairman-card">
-                    <div class="chairman-avatar"><img src="assets/teamlead/team_leaders/Nele_final.jpg" alt="Nele Noelani Weber"></div>
+                    <div class="chairman-avatar"><img loading="lazy" decoding="async" src="assets/teamlead/team_leaders/Nele_final.jpg" alt="Nele Noelani Weber"></div>
                     <h3>Nele Noelani Weber</h3>
                     <p>Head of Event Management</p>
                     <div class="chairman-social">
-                        <a href="https://www.linkedin.com/in/nele-noelani-weber-268bb132a/" target="_blank" class="social-link">LINKEDIN</a>
+                        <a href="https://www.linkedin.com/in/nele-noelani-weber-268bb132a/" target="_blank" rel="noopener noreferrer" class="social-link">LINKEDIN</a>
                         <a href="mailto:nele.weber@fs-businessforum.com" class="social-link">EMAIL</a>
                     </div>
                 </div>
 
                 <div class="chairman-card">
-                    <div class="chairman-avatar"><img src="assets/teamlead/team_leaders/Anton_final.jpg" alt="Anton Wessendorf"></div>
+                    <div class="chairman-avatar"><img loading="lazy" decoding="async" src="assets/teamlead/team_leaders/Anton_final.jpg" alt="Anton Wessendorf"></div>
                     <h3>Anton Wessendorf</h3>
                     <p>Head of IT Department</p>
                     <div class="chairman-social">
-                        <a href="https://www.linkedin.com/in/anton-wessendorf/" target="_blank" class="social-link">LINKEDIN</a>
+                        <a href="https://www.linkedin.com/in/anton-wessendorf/" target="_blank" rel="noopener noreferrer" class="social-link">LINKEDIN</a>
                         <a href="mailto:anton.wessendorf@fs-businessforum.com" class="social-link">EMAIL</a>
                     </div>
                 </div>
@@ -1210,11 +1210,19 @@
                 <div class="contact-form-wrapper">
                     <h3 class="contact-form-title">Contact Us</h3>
                     <form class="contact-form" action="https://formsubmit.co/info@fs-businessforum.com" method="POST">
+                        <!-- FormSubmit config: CC to Sarah & Jakob, table layout, spam honeypot.
+                             NOTE: the endpoint only works after info@fs-businessforum.com has
+                             confirmed FormSubmit's one-time activation email (check spam folder). -->
+                        <input type="hidden" name="_subject" value="Contact form — fs-businessforum.com">
+                        <input type="hidden" name="_cc" value="sarah.muenker@fs-businessforum.com,jakob.broetz@fs-businessforum.com">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_next" value="https://fs-businessforum.com/#contact">
+                        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
                         <div class="form-row">
-                            <input type="text" name="name" placeholder="Name" required>
-                            <input type="email" name="email" placeholder="Email" required>
+                            <input type="text" name="name" placeholder="Name" aria-label="Name" autocomplete="name" required>
+                            <input type="email" name="email" placeholder="Email" aria-label="Email" autocomplete="email" required>
                         </div>
-                        <textarea name="message" placeholder="Message" rows="5" required></textarea>
+                        <textarea name="message" placeholder="Message" aria-label="Message" rows="5" required></textarea>
                         <button type="submit" class="btn btn-primary">Send Message</button>
                     </form>
                 </div>
@@ -1246,8 +1254,8 @@
                     </div>
                     <div class="footer-col">
                         <h4>Connect</h4>
-                        <a href="https://fs-businessforum.com" target="_blank">Official Website</a>
-                        <a href="https://www.frankfurt-school.de" target="_blank">Frankfurt School</a>
+                        <a href="https://fs-businessforum.com" target="_blank" rel="noopener noreferrer">Official Website</a>
+                        <a href="https://www.frankfurt-school.de" target="_blank" rel="noopener noreferrer">Frankfurt School</a>
                     </div>
                     <div class="footer-col">
                         <h4>Legal</h4>
@@ -1259,7 +1267,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 FS Business Forum. A student initiative of Frankfurt School of Finance & Management.</p>
+                <p>&copy; 2026 FS Business Forum. A student initiative of Frankfurt School of Finance & Management.</p>
                 <p class="footer-credit">.</p> <!-- Website developed by Maximilian Enzinger -->
             </div>
         </div>
@@ -1273,6 +1281,5 @@
     </button>
 
     
-    <script src="script.js"></script>
 </body>
 </html>

@@ -144,36 +144,67 @@ img {
     display: block;
 }
 
-/* Custom Cursor */
-.cursor,
-.cursor-follower {
+/* ================================
+   Custom Cursor: elegant ring that fully replaces the native arrow.
+   mix-blend-mode: difference keeps it visible on dark AND gold sections.
+   z-index above intro overlay (10000) and progress bar (10001) so the
+   ring also works over the intro's skip button.
+   ================================ */
+.cursor {
     pointer-events: none;
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 10000;
+    width: 34px;
+    height: 34px;
+    border: 1.5px solid rgba(255, 255, 255, 0.9);
     border-radius: 50%;
+    background-color: transparent;
     transform: translate(-50%, -50%);
     mix-blend-mode: difference;
+    z-index: 10002;
+    opacity: 0;
+    transition: transform 0.25s var(--ease-out-quart), opacity 0.3s ease, background-color 0.25s ease;
 }
 
-.cursor {
-    width: 8px;
-    height: 8px;
-    background: var(--color-text);
+/* small center dot inside the ring */
+.cursor::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #ffffff;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.25s ease;
 }
 
-.cursor-follower {
-    display: none;
-}
+.cursor.cursor-visible { opacity: 1; }
 
-.cursor-follower.hover {
+/* hovering an interactive element: ring grows, dot fades, subtle fill */
+.cursor.cursor-hover {
     transform: translate(-50%, -50%) scale(1.5);
-    opacity: 0.5;
+    background-color: rgba(255, 255, 255, 0.14);
+}
+
+.cursor.cursor-hover::after { opacity: 0; }
+
+/* pressing: tactile shrink */
+.cursor.cursor-down {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Native arrow is hidden only while the custom cursor is active
+   (JS adds the class; if JS fails, users keep their normal cursor) */
+html.custom-cursor-on,
+html.custom-cursor-on * {
+    cursor: none !important;
 }
 
 @media (hover: none), (pointer: coarse) {
-    .cursor, .cursor-follower { display: none; }
+    .cursor { display: none; }
 }
 
 /* Intro Video Overlay */
@@ -206,15 +237,18 @@ img {
     0% {
         opacity: 1;
         visibility: visible;
+        -webkit-backdrop-filter: blur(0px);
         backdrop-filter: blur(0px);
     }
     50% {
         opacity: 1;
+        -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
     }
     100% {
         opacity: 0;
         visibility: hidden;
+        -webkit-backdrop-filter: blur(20px);
         backdrop-filter: blur(20px);
     }
 }
@@ -353,11 +387,17 @@ body.intro-complete .hero-scroll {
     right: 0;
     z-index: 1000;
     padding: 0 3rem;
-    transition: background 0.3s, backdrop-filter 0.3s, padding 0.3s;
+    transition: background 0.3s, backdrop-filter 0.3s, padding 0.3s, transform 0.3s var(--ease-out-quart);
+}
+
+/* Auto-hide nav while scrolling down (class-driven, replaces per-event GSAP tween) */
+.nav.nav-hidden {
+    transform: translateY(-100%);
 }
 
 .nav.scrolled {
     background: rgba(4, 8, 16, 0.9);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--color-border);
@@ -449,6 +489,8 @@ body.intro-complete .hero-scroll {
     gap: 6px;
     cursor: pointer;
     padding: 10px;
+    background: none;
+    border: 0;
 }
 
 .nav-menu-btn span {
@@ -614,6 +656,17 @@ body.intro-complete .hero-scroll {
     text-transform: uppercase;
     color: var(--color-text-secondary);
     margin-top: 1rem;
+}
+
+.hero-date {
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin: 0.5rem auto 1.5rem;
+    opacity: 0;
+    transform: translateY(30px);
 }
 
 .hero-description {
@@ -1394,7 +1447,7 @@ section {
 
 .stat-number-large {
     display: inline;
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: var(--font-display);
     font-size: 4rem;
     font-weight: 400;
     color: var(--color-bg);
@@ -1831,16 +1884,18 @@ section {
 .reveal-delay-3 { transition-delay: 0.3s !important; }
 .reveal-delay-4 { transition-delay: 0.4s !important; }
 
-/* Smooth scroll progress */
+/* Smooth scroll progress (single source of truth; width set once, scaleX driven by JS) */
 .scroll-progress {
     position: fixed;
     top: 0;
     left: 0;
+    width: 100%;
     height: 3px;
-    background: var(--color-accent);
+    background: linear-gradient(90deg, var(--color-accent), #e8d5a3, var(--color-accent));
     z-index: 10001;
     transform-origin: left;
     transform: scaleX(0);
+    will-change: transform;
 }
 
 /* ================================
@@ -2057,6 +2112,7 @@ section {
     background: rgba(4, 8, 16, 0.7);
     padding: 0.5rem 1rem;
     border-radius: 4px;
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
@@ -2242,6 +2298,7 @@ section {
     padding: 2.5rem 2rem;
     text-align: center;
     transition: all 0.3s ease;
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
@@ -2412,17 +2469,7 @@ section {
    PREMIUM EXPERIENCE ENHANCEMENTS
    ================================ */
 
-/* Scroll Progress Bar */
-.scroll-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 0%;
-    height: 3px;
-    background: linear-gradient(90deg, var(--color-accent), #e8d5a3, var(--color-accent));
-    z-index: 10001;
-    transition: none;
-}
+/* Scroll Progress Bar: single definition further up (transform-based, GPU-friendly) */
 
 /* Grain Overlay for Premium Feel */
 .grain-overlay {
@@ -3004,6 +3051,12 @@ button:focus-visible {
     margin-top: 4rem;
     opacity: 1;
     transition: all 0.5s var(--ease-out-quart);
+}
+
+/* JS toggles 'hidden' directly on the button — without this rule the invisible
+   button kept its layout space and pushed "Become a Speaker" off-center */
+.show-more-btn.hidden {
+    display: none !important;
 }
 
 .show-more-container.hidden {
@@ -5156,5 +5209,36 @@ body.intro-complete .title-accent::after {
     .become-partner-btn {
         padding: 1.2rem 3rem;
         font-size: 1.1rem;
+    }
+}
+
+/* ================================
+   Accessibility: prefers-reduced-motion
+   Elements that start hidden in CSS (waiting for GSAP) are forced visible,
+   and all CSS animations/transitions collapse to instant.
+   ================================ */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    html {
+        scroll-behavior: auto !important;
+    }
+
+    .title-line,
+    .hero-date,
+    .hero-description,
+    .hero-stats,
+    .hero-cta,
+    .hero-scroll {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .marquee-content {
+        animation: none !important;
     }
 }

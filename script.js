@@ -5,13 +5,17 @@
 // Register GSAP Plugins
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
+// Global capability flags
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FINE_POINTER = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
 // ================================
 // Initialize Lenis Smooth Scroll
 // ================================
 let lenis;
 
-// Check if Lenis is available
-if (typeof Lenis !== 'undefined') {
+// Check if Lenis is available (skipped for reduced-motion users)
+if (typeof Lenis !== 'undefined' && !REDUCED_MOTION) {
     lenis = new Lenis({
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -64,42 +68,53 @@ if (typeof Lenis !== 'undefined') {
 }
 
 // ================================
-// Custom Cursor
+// Custom Cursor (ring replaces the native arrow; fine pointer only)
 // ================================
 const cursor = document.querySelector('.cursor');
-const cursorFollower = document.querySelector('.cursor-follower');
 
-let mouseX = 0, mouseY = 0;
-let cursorX = 0, cursorY = 0;
-let followerX = 0, followerY = 0;
+if (cursor && FINE_POINTER && !REDUCED_MOTION) {
+    // Hide the native arrow only now that the custom cursor is running
+    document.documentElement.classList.add('custom-cursor-on');
 
-document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-});
+    const HOVER_TARGETS = 'a, button, input, textarea, select, .speaker-card, .gallery-item, .partner-logo, .feature, .intro-skip';
 
-function animateCursor() {
-    // Smooth cursor movement
-    cursorX += (mouseX - cursorX) * 0.2;
-    cursorY += (mouseY - cursorY) * 0.2;
-    followerX += (mouseX - followerX) * 0.1;
-    followerY += (mouseY - followerY) * 0.1;
+    let mouseX = -100, mouseY = -100;
+    let cursorX = -100, cursorY = -100;
+    let visible = false;
 
-    cursor.style.left = cursorX + 'px';
-    cursor.style.top = cursorY + 'px';
-    cursorFollower.style.left = followerX + 'px';
-    cursorFollower.style.top = followerY + 'px';
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        if (!visible) {
+            visible = true;
+            cursorX = mouseX;
+            cursorY = mouseY;
+            cursor.classList.add('cursor-visible');
+        }
+    }, { passive: true });
 
-    requestAnimationFrame(animateCursor);
+    // Delegated hover state — also covers dynamically revealed speaker cards
+    document.addEventListener('mouseover', (e) => {
+        cursor.classList.toggle('cursor-hover', Boolean(e.target.closest(HOVER_TARGETS)));
+    }, { passive: true });
+
+    document.addEventListener('mousedown', () => cursor.classList.add('cursor-down'));
+    document.addEventListener('mouseup', () => cursor.classList.remove('cursor-down'));
+
+    // Hide the ring when the pointer leaves the window
+    document.addEventListener('mouseleave', () => cursor.classList.remove('cursor-visible'));
+    document.addEventListener('mouseenter', () => cursor.classList.add('cursor-visible'));
+
+    (function animateCursor() {
+        cursorX += (mouseX - cursorX) * 0.22;
+        cursorY += (mouseY - cursorY) * 0.22;
+        cursor.style.left = cursorX + 'px';
+        cursor.style.top = cursorY + 'px';
+        requestAnimationFrame(animateCursor);
+    })();
+} else if (cursor) {
+    cursor.style.display = 'none';
 }
-animateCursor();
-
-// Cursor hover effects
-const hoverElements = document.querySelectorAll('a, button, .speaker-card, .gallery-item, .partner-logo, .feature, .intro-skip');
-hoverElements.forEach(el => {
-    el.addEventListener('mouseenter', () => cursorFollower.classList.add('hover'));
-    el.addEventListener('mouseleave', () => cursorFollower.classList.remove('hover'));
-});
 
 // ================================
 // Intro Video Animation
@@ -114,8 +129,13 @@ document.body.classList.add('intro-playing');
 // Disable scrolling during intro
 lenis.stop();
 
+// Reduced motion: skip the intro video entirely and reveal the page
+if (REDUCED_MOTION) {
+    requestAnimationFrame(() => endIntro());
+}
+
 // Force video to load and start playing
-introVideo.load();
+if (!REDUCED_MOTION) introVideo.load();
 
 // Handle video load error
 introVideo.addEventListener('error', () => {
@@ -132,11 +152,11 @@ introVideo.addEventListener('canplay', () => {
 }, { once: true });
 
 // Also try to play immediately
-setTimeout(() => {
-    introVideo.play().catch(e => {
-        console.log('Initial play failed:', e);
-    });
-}, 100);
+if (!REDUCED_MOTION) {
+    setTimeout(() => {
+        introVideo.play().catch(() => {});
+    }, 100);
+}
 
 // Fallback: if video doesn't start within 3 seconds, skip
 setTimeout(() => {
@@ -192,7 +212,7 @@ function endIntro() {
 
     // Start hero video playing before transition
     const heroVideo = document.querySelector('.hero-video');
-    if (heroVideo) {
+    if (heroVideo && !REDUCED_MOTION) {
         heroVideo.play().catch(() => {});
     }
 
@@ -226,29 +246,24 @@ const navMenuBtn = document.querySelector('.nav-menu-btn');
 const mobileMenu = document.querySelector('.mobile-menu');
 const mobileLinks = document.querySelectorAll('.mobile-link');
 
-// Nav scroll effect
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 100) {
-        nav.classList.add('scrolled');
-    } else {
-        nav.classList.remove('scrolled');
-    }
-});
+// Nav scroll effect: handled by the consolidated scroll handler at the bottom of this file
 
-// Mobile menu toggle
+// Mobile menu toggle (keeps aria-expanded in sync for screen readers)
+function setMobileMenu(open) {
+    navMenuBtn.classList.toggle('active', open);
+    mobileMenu.classList.toggle('active', open);
+    navMenuBtn.setAttribute('aria-expanded', String(open));
+    navMenuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    document.body.style.overflow = open ? 'hidden' : '';
+}
+
 navMenuBtn.addEventListener('click', () => {
-    navMenuBtn.classList.toggle('active');
-    mobileMenu.classList.toggle('active');
-    document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    setMobileMenu(!mobileMenu.classList.contains('active'));
 });
 
 // Close mobile menu on link click
 mobileLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        navMenuBtn.classList.remove('active');
-        mobileMenu.classList.remove('active');
-        document.body.style.overflow = '';
-    });
+    link.addEventListener('click', () => setMobileMenu(false));
 });
 
 // Smooth scroll for nav links
@@ -270,12 +285,21 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Initialize Animations
 // ================================
 function initAnimations() {
+    // Reduced motion: no tweens; CSS overrides reveal the content, counters get final values
+    if (REDUCED_MOTION) {
+        document.querySelectorAll('[data-count]').forEach(counter => {
+            counter.innerHTML = counter.getAttribute('data-count');
+        });
+        return;
+    }
+
     // Hero animations
     const heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
     heroTl
         .to('.hero-badge', { opacity: 1, y: 0, duration: 0.8 })
         .to('.title-line', { opacity: 1, y: 0, duration: 1, stagger: 0.15 }, '-=0.4')
+        .to('.hero-date', { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
         .to('.hero-description', { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
         .to('.hero-stats', { opacity: 1, y: 0, duration: 0.8 }, '-=0.5')
         .to('.hero-cta', { opacity: 1, y: 0, duration: 0.8 }, '-=0.5')
@@ -310,7 +334,7 @@ function animateCounters() {
             onEnter: () => {
                 gsap.to(counter, {
                     innerHTML: target,
-                    duration: isYear ? 0.5 : 5,
+                    duration: isYear ? 0.5 : 2.5,
                     ease: 'power2.out',
                     snap: { innerHTML: 1 },
                     onUpdate: function() {
@@ -727,105 +751,73 @@ if (marquee) {
 }
 
 // ================================
-// Scroll Progress Indicator
-// ================================
-const scrollProgress = document.createElement('div');
-scrollProgress.className = 'scroll-progress';
-document.body.appendChild(scrollProgress);
-
-gsap.to(scrollProgress, {
-    scaleX: 1,
-    ease: 'none',
-    scrollTrigger: {
-        trigger: document.body,
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: 0.3
-    }
-});
-
-// ================================
 // Image Reveal Effect
 // ================================
-document.querySelectorAll('.image-wrapper').forEach(wrapper => {
-    gsap.from(wrapper.querySelector('img'), {
-        scrollTrigger: {
-            trigger: wrapper,
-            start: 'top 80%',
-        },
-        scale: 1.2,
-        duration: 1.5,
-        ease: 'power3.out'
+if (!REDUCED_MOTION) {
+    document.querySelectorAll('.image-wrapper').forEach(wrapper => {
+        gsap.from(wrapper.querySelector('img'), {
+            scrollTrigger: {
+                trigger: wrapper,
+                start: 'top 80%',
+            },
+            scale: 1.2,
+            duration: 1.5,
+            ease: 'power3.out'
+        });
     });
-});
+}
 
 // ================================
-// Magnetic Effect for Buttons
+// Magnetic Effect for Buttons + Speaker Card 3D Tilt (fine pointer only)
 // ================================
-document.querySelectorAll('.btn').forEach(btn => {
-    btn.addEventListener('mousemove', (e) => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
+if (FINE_POINTER && !REDUCED_MOTION) {
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
 
-        gsap.to(btn, {
-            x: x * 0.2,
-            y: y * 0.2,
-            duration: 0.3,
-            ease: 'power2.out'
+            gsap.to(btn, {
+                x: x * 0.2,
+                y: y * 0.2,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            gsap.to(btn, {
+                x: 0,
+                y: 0,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
         });
     });
 
-    btn.addEventListener('mouseleave', () => {
-        gsap.to(btn, {
-            x: 0,
-            y: 0,
-            duration: 0.3,
-            ease: 'power2.out'
+    document.querySelectorAll('.speaker-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+            gsap.to(card, {
+                rotateY: x * 10,
+                rotateX: -y * 10,
+                duration: 0.3,
+                ease: 'power2.out',
+                transformPerspective: 1000
+            });
         });
-    });
-});
 
-// ================================
-// Speaker Card 3D Tilt Effect
-// ================================
-document.querySelectorAll('.speaker-card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-        gsap.to(card, {
-            rotateY: x * 10,
-            rotateX: -y * 10,
-            duration: 0.3,
-            ease: 'power2.out',
-            transformPerspective: 1000
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, {
+                rotateY: 0,
+                rotateX: 0,
+                duration: 0.5,
+                ease: 'power2.out'
+            });
         });
-    });
-
-    card.addEventListener('mouseleave', () => {
-        gsap.to(card, {
-            rotateY: 0,
-            rotateX: 0,
-            duration: 0.5,
-            ease: 'power2.out'
-        });
-    });
-});
-
-// ================================
-// Text Split Animation Helper
-// ================================
-function splitText(element) {
-    const text = element.textContent;
-    element.innerHTML = '';
-    text.split('').forEach((char, i) => {
-        const span = document.createElement('span');
-        span.textContent = char === ' ' ? '\u00A0' : char;
-        span.style.display = 'inline-block';
-        span.style.transitionDelay = `${i * 0.03}s`;
-        element.appendChild(span);
     });
 }
 
@@ -875,21 +867,13 @@ if (heroVideo) {
 document.addEventListener('keydown', (e) => {
     // Close mobile menu on Escape
     if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
-        navMenuBtn.classList.remove('active');
-        mobileMenu.classList.remove('active');
-        document.body.style.overflow = '';
+        setMobileMenu(false);
     }
 });
 
-// ================================
-// Performance: Disable animations on low-end devices
-// ================================
-if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    gsap.globalTimeline.pause();
-    if (lenis && typeof lenis.destroy === 'function') {
-        lenis.destroy();
-    }
-}
+// Note: prefers-reduced-motion is honored at the source of every animation
+// (REDUCED_MOTION guards + CSS overrides) instead of pausing the GSAP timeline,
+// which previously left all CSS-hidden elements permanently invisible.
 
 // ================================
 // Resize Handler
@@ -903,17 +887,11 @@ window.addEventListener('resize', () => {
 });
 
 // ================================
-// Log Ready State
-// ================================
-console.log('%c FS Business Forum ', 'background: #c9a962; color: #0a0a0b; font-size: 16px; padding: 8px; border-radius: 4px;');
-console.log('%c Website initialized successfully ', 'color: #a0a0a5;');
-
-// ================================
 // PREMIUM EXPERIENCE ENHANCEMENTS
 // ================================
 
 // SplitType Text Animations
-if (typeof SplitType !== 'undefined') {
+if (typeof SplitType !== 'undefined' && !REDUCED_MOTION) {
     // Animate section titles with character reveal
     document.querySelectorAll('.title-reveal').forEach(title => {
         const split = new SplitType(title, { types: 'chars, words' });
@@ -935,218 +913,152 @@ if (typeof SplitType !== 'undefined') {
 
 }
 
-// Enhanced Parallax Images - reduced movement to prevent black space
-document.querySelectorAll('.parallax-container img, .gallery-item img').forEach(img => {
-    gsap.to(img, {
-        scrollTrigger: {
-            trigger: img.parentElement,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.5
-        },
-        y: -15,
-        scale: 1.03,
-        ease: 'none'
-    });
-});
-
-// Floating Elements Animation
-document.querySelectorAll('.visual-circle').forEach((circle, i) => {
-    gsap.to(circle, {
-        y: -30 - (i * 10),
-        x: 20 + (i * 5),
-        rotation: 360,
-        duration: 20 + (i * 5),
-        repeat: -1,
-        ease: 'none'
-    });
-});
-
-// Enhanced Section Reveals - only for sections AFTER hero (excluding about/speakers which have their own animations)
-document.querySelectorAll('section:not(.hero):not(.speakers):not(.about)').forEach(section => {
-    const elements = section.querySelectorAll('.section-tag, .section-subtitle');
-
-    if (elements.length > 0) {
-        gsap.from(elements, {
+if (!REDUCED_MOTION) {
+    // Enhanced Parallax Images - reduced movement to prevent black space
+    document.querySelectorAll('.parallax-container img, .gallery-item img').forEach(img => {
+        gsap.to(img, {
             scrollTrigger: {
-                trigger: section,
-                start: 'top 75%',
+                trigger: img.parentElement,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1.5
+            },
+            y: -15,
+            scale: 1.03,
+            ease: 'none'
+        });
+    });
+
+    // Floating Elements Animation
+    document.querySelectorAll('.visual-circle').forEach((circle, i) => {
+        gsap.to(circle, {
+            y: -30 - (i * 10),
+            x: 20 + (i * 5),
+            rotation: 360,
+            duration: 20 + (i * 5),
+            repeat: -1,
+            ease: 'none'
+        });
+    });
+
+    // Enhanced Section Reveals - only for sections AFTER hero (excluding about/speakers which have their own animations)
+    document.querySelectorAll('section:not(.hero):not(.speakers):not(.about)').forEach(section => {
+        const elements = section.querySelectorAll('.section-tag, .section-subtitle');
+
+        if (elements.length > 0) {
+            gsap.from(elements, {
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 75%',
+                    once: true
+                },
+                opacity: 0,
+                y: 40,
+                stagger: 0.1,
+                duration: 0.8,
+                ease: 'power3.out'
+            });
+        }
+    });
+
+    // Smooth Scale Effect for Panel Highlights only (headline speakers appear immediately)
+    document.querySelectorAll('.panel-highlight').forEach(card => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top 85%',
+                once: true
+            },
+            scale: 0.9,
+            opacity: 0,
+            duration: 1,
+            ease: 'power3.out'
+        });
+    });
+
+    // Add smooth entrance for chairman cards
+    document.querySelectorAll('.chairman-card').forEach((card, i) => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top 85%',
                 once: true
             },
             opacity: 0,
-            y: 40,
+            y: 80,
+            rotateY: 15,
+            duration: 1,
+            delay: i * 0.15,
+            ease: 'power3.out'
+        });
+    });
+
+    // Footer reveal animation
+    const footer = document.querySelector('.footer');
+    if (footer) {
+        gsap.from(footer.children, {
+            scrollTrigger: {
+                trigger: footer,
+                start: 'top 90%',
+                once: true
+            },
+            opacity: 0,
+            y: 30,
             stagger: 0.1,
             duration: 0.8,
             ease: 'power3.out'
         });
     }
-});
-
-// Smooth Scale Effect for Panel Highlights only (headline speakers appear immediately)
-document.querySelectorAll('.panel-highlight').forEach(card => {
-    gsap.from(card, {
-        scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-            once: true
-        },
-        scale: 0.9,
-        opacity: 0,
-        duration: 1,
-        ease: 'power3.out'
-    });
-});
-
-// Enhanced Cursor Interactions (uses existing cursor/cursorFollower variables)
-// Add special effects for different elements
-document.querySelectorAll('.speaker-highlight-card, .gallery-item, .partner-logo').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-        gsap.to(cursorFollower, {
-            scale: 2,
-            backgroundColor: 'rgba(201, 169, 98, 0.1)',
-            duration: 0.3
-        });
-    });
-
-    el.addEventListener('mouseleave', () => {
-        gsap.to(cursorFollower, {
-            scale: 1,
-            backgroundColor: 'transparent',
-            duration: 0.3
-        });
-    });
-});
-
-// Text links get special cursor
-document.querySelectorAll('a:not(.btn), .nav-link').forEach(link => {
-    link.addEventListener('mouseenter', () => {
-        gsap.to(cursor, { scale: 0.5, duration: 0.2 });
-        gsap.to(cursorFollower, { scale: 1.5, duration: 0.2 });
-    });
-
-    link.addEventListener('mouseleave', () => {
-        gsap.to(cursor, { scale: 1, duration: 0.2 });
-        gsap.to(cursorFollower, { scale: 1, duration: 0.2 });
-    });
-});
-
-// Scroll-triggered Background Color Transitions
-const colorSections = [
-    { selector: '.hero', color: '#0a0a0b' },
-    { selector: '.speakers', color: '#0a0a0b' },
-    { selector: '.stats-section', color: '#c9a962' }
-];
-
-// Smooth scroll progress updates
-const scrollProgressBar = document.querySelector('.scroll-progress');
-if (scrollProgressBar) {
-    window.addEventListener('scroll', () => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercent = (scrollTop / docHeight) * 100;
-        scrollProgressBar.style.width = scrollPercent + '%';
-    }, { passive: true });
 }
 
-// Enhanced Navigation Scroll Effect (uses existing nav variable)
-let lastScrollTop = 0;
-
-window.addEventListener('scroll', () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-    if (scrollTop > lastScrollTop && scrollTop > 200) {
-        // Scrolling down - hide nav
-        gsap.to(nav, { y: -100, duration: 0.3, ease: 'power2.out' });
-    } else {
-        // Scrolling up - show nav
-        gsap.to(nav, { y: 0, duration: 0.3, ease: 'power2.out' });
-    }
-
-    lastScrollTop = scrollTop;
-}, { passive: true });
-
-
-
-// Animate numbers with counting effect
-document.querySelectorAll('.stat-number').forEach(stat => {
-    const finalValue = parseInt(stat.textContent.replace(/[^0-9]/g, ''));
-    const suffix = stat.textContent.replace(/[0-9]/g, '');
-
-    ScrollTrigger.create({
-        trigger: stat,
-        start: 'top 85%',
-        once: true,
-        onEnter: () => {
-            gsap.from(stat, {
-                textContent: 0,
-                duration: 2,
-                ease: 'power2.out',
-                snap: { textContent: 1 },
-                onUpdate: function() {
-                    stat.textContent = Math.ceil(this.targets()[0].textContent) + suffix;
-                }
-            });
-        }
-    });
-});
-
-// Add smooth entrance for chairman cards
-document.querySelectorAll('.chairman-card').forEach((card, i) => {
-    gsap.from(card, {
-        scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-            once: true
-        },
-        opacity: 0,
-        y: 80,
-        rotateY: 15,
-        duration: 1,
-        delay: i * 0.15,
-        ease: 'power3.out'
-    });
-});
-
-// Footer reveal animation
-const footer = document.querySelector('.footer');
-if (footer) {
-    gsap.from(footer.children, {
-        scrollTrigger: {
-            trigger: footer,
-            start: 'top 90%',
-            once: true
-        },
-        opacity: 0,
-        y: 30,
-        stagger: 0.1,
-        duration: 0.8,
-        ease: 'power3.out'
-    });
-}
-
-// Back to Top Button
+// Back to Top Button (visibility handled by the consolidated scroll handler)
 const backToTopBtn = document.querySelector('.back-to-top');
 if (backToTopBtn) {
-    // Show/hide button based on scroll position
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 500) {
-            backToTopBtn.classList.add('visible');
-        } else {
-            backToTopBtn.classList.remove('visible');
-        }
-    }, { passive: true });
-
-    // Scroll to top on click
     backToTopBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        // Use Lenis for smooth scroll if available and initialized
         if (lenis && typeof lenis.scrollTo === 'function') {
             lenis.scrollTo(0, { duration: 1.5 });
         } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: REDUCED_MOTION ? 'auto' : 'smooth' });
         }
     });
 }
+
+// ================================
+// Consolidated scroll handler
+// (replaces 4 separate scroll listeners: nav .scrolled, nav hide/show,
+//  progress bar and back-to-top — one passive listener, class/transform based)
+// ================================
+const scrollProgressBar = document.querySelector('.scroll-progress');
+let lastScrollTop = 0;
+let navHidden = false;
+
+function onGlobalScroll() {
+    const y = window.pageYOffset || document.documentElement.scrollTop;
+
+    nav.classList.toggle('scrolled', y > 100);
+
+    if (scrollProgressBar) {
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? Math.min(y / docHeight, 1) : 0;
+        scrollProgressBar.style.transform = 'scaleX(' + progress + ')';
+    }
+
+    if (backToTopBtn) {
+        backToTopBtn.classList.toggle('visible', y > 500);
+    }
+
+    const goingDown = y > lastScrollTop && y > 200;
+    if (goingDown !== navHidden) {
+        navHidden = goingDown;
+        nav.classList.toggle('nav-hidden', goingDown);
+    }
+
+    lastScrollTop = y;
+}
+
+window.addEventListener('scroll', onGlobalScroll, { passive: true });
+onGlobalScroll();
 
 // ================================
 // Show More Speakers Functionality
@@ -1164,6 +1076,17 @@ if (showMoreBtn) {
         const hiddenSpeakers = document.querySelectorAll('.speaker-card-hidden');
 
         if (hiddenSpeakers.length > 0) {
+            if (REDUCED_MOTION) {
+                // Instant reveal, no tweens
+                showMoreContainer.classList.add('hidden');
+                hiddenSpeakers.forEach(speaker => {
+                    speaker.classList.remove('speaker-card-hidden');
+                    speaker.classList.add('speaker-card-visible');
+                    speaker.style.display = 'block';
+                });
+                return;
+            }
+
             // Animate button out
             gsap.to(showMoreContainer, {
                 opacity: 0,
@@ -1206,17 +1129,8 @@ if (showMoreBtn) {
                     }
                 );
             });
-
-            // Add hover cursor effect to newly revealed speakers
-            hiddenSpeakers.forEach(speaker => {
-                speaker.addEventListener('mouseenter', () => cursorFollower.classList.add('hover'));
-                speaker.addEventListener('mouseleave', () => cursorFollower.classList.remove('hover'));
-            });
         }
     });
 }
 
-console.log('%c Premium Experience Loaded ', 'background: linear-gradient(90deg, #c9a962, #e8d5a3); color: #040810; font-size: 12px; padding: 4px 8px; border-radius: 4px;');
-
-
-console.log("We warmly welcome you to the Business Forum in November :)")
+console.log('%c FS Business Forum — we warmly welcome you in November :) ', 'background: #c9a962; color: #040810; font-size: 12px; padding: 4px 8px; border-radius: 4px;');
