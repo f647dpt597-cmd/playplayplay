@@ -672,7 +672,7 @@ body.intro-complete .hero-scroll {
 .hero-description {
     font-size: 1.125rem;
     color: var(--color-text-secondary);
-    max-width: 600px;
+    max-width: 720px; /* wide enough that "…networking at the" fits on one line */
     margin: 0 auto 2.5rem;
     opacity: 0;
     transform: translateY(30px);
