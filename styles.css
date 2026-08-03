@@ -5242,3 +5242,6 @@ body.intro-complete .title-accent::after {
         animation: none !important;
     }
 }
+
+
+/* Contact form (FormSubmit) */ .contact-form-wrapper{margin-top:3rem;max-width:560px;text-align:left;background:rgba(255,255,255,.03);border:1px solid rgba(201,169,98,.25);border-radius:16px;padding:2rem}
