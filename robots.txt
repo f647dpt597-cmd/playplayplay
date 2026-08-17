@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Legal pages stay reachable for visitors but are kept out of search results
+# via <meta name="robots" content="noindex, follow"> in the pages themselves.
+
+Sitemap: https://fs-businessforum.com/sitemap.xml

@@ -12,9 +12,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <!-- Icons, canonical & social sharing -->
-    <link rel="icon" type="image/jpeg" href="signature/fsbusinessforum_logo.jpg">
-    <link rel="apple-touch-icon" href="signature/fsbusinessforum_logo.jpg">
+    <!-- Icons, canonical & social sharing
+         Icons live at the domain root so Google can pick them up as the search-result
+         favicon (it also probes /favicon.ico directly). Keep the paths root-relative. -->
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
     <link rel="canonical" href="https://fs-businessforum.com/">
     <meta property="og:type" content="website">
     <meta property="og:title" content="FS Business Forum | 13. &amp; 14. November 2026">
@@ -39,6 +43,67 @@
 
     <!-- Without JS the intro overlay would permanently cover the page -->
     <noscript><style>.intro-overlay{display:none !important;}</style></noscript>
+
+    <!-- Structured data: helps Google understand the event and pick sensible sitelinks -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": "https://fs-businessforum.com/#organization",
+                "name": "FS Business Forum",
+                "url": "https://fs-businessforum.com/",
+                "logo": "https://fs-businessforum.com/icon-512.png",
+                "email": "info@fs-businessforum.com",
+                "description": "Europe's premier student-led business congress, organised by students of Frankfurt School of Finance & Management."
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://fs-businessforum.com/#website",
+                "url": "https://fs-businessforum.com/",
+                "name": "FS Business Forum",
+                "publisher": { "@id": "https://fs-businessforum.com/#organization" }
+            },
+            {
+                "@type": "SiteNavigationElement",
+                "name": [ "Speakers", "Previous Speakers", "About", "Experience", "Partners", "Team", "Tickets" ],
+                "url": [
+                    "https://fs-businessforum.com/#speakers",
+                    "https://fs-businessforum.com/previous-speakers.html",
+                    "https://fs-businessforum.com/#about",
+                    "https://fs-businessforum.com/#experience",
+                    "https://fs-businessforum.com/#partners",
+                    "https://fs-businessforum.com/#team",
+                    "https://fs-businessforum.com/tickets.html"
+                ]
+            },
+            {
+                "@type": "Event",
+                "name": "FS Business Forum 2026",
+                "url": "https://fs-businessforum.com/",
+                "startDate": "2026-11-13",
+                "endDate": "2026-11-14",
+                "eventStatus": "https://schema.org/EventScheduled",
+                "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+                "image": "https://fs-businessforum.com/assets/picturesdecoration/vp1_poster.jpg",
+                "description": "Europe's premier student-led business congress. 700+ participants connecting with leaders from business, finance and politics.",
+                "organizer": { "@id": "https://fs-businessforum.com/#organization" },
+                "location": {
+                    "@type": "Place",
+                    "name": "Frankfurt School of Finance & Management",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "streetAddress": "Adickesallee 32-34",
+                        "postalCode": "60322",
+                        "addressLocality": "Frankfurt am Main",
+                        "addressCountry": "DE"
+                    }
+                }
+            }
+        ]
+    }
+    </script>
 </head>
 <body>
 
@@ -98,6 +163,7 @@
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-content">
             <a href="#speakers" class="mobile-link">Speakers</a>
+            <a href="previous-speakers.html" class="mobile-link">Previous Speakers</a>
             <a href="#about" class="mobile-link">About</a>
             <a href="#experience" class="mobile-link">Experience</a>
             <a href="#partners" class="mobile-link">Partners</a>
@@ -213,6 +279,14 @@
                     <span class="title-reveal">Visionaries.</span>
                 </h2>
                 <p class="section-subtitle">Industry titans and thought leaders shaping the future of business</p>
+                <!-- Standalone, crawlable archive page — gives Google a "Previous Speakers"
+                     target instead of falling back to the legal pages for sitelinks. -->
+                <a href="previous-speakers.html" class="section-header-link">
+                    See all previous speakers
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
             </div>
 
             <!-- Top 3 Speaker Highlights - Dynamic Card Design -->
@@ -1247,6 +1321,7 @@
                     <div class="footer-col">
                         <h4>Navigate</h4>
                         <a href="#speakers">Speakers</a>
+                        <a href="previous-speakers.html">Previous Speakers</a>
                         <a href="#about">About</a>
                         <a href="#experience">Experience</a>
                         <a href="#partners">Partners</a>

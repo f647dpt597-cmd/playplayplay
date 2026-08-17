@@ -864,6 +864,37 @@ section {
     max-width: 600px;
 }
 
+/* Text link under a section subtitle (e.g. "See all previous speakers") */
+.section-header-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--color-accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201, 169, 98, 0.35);
+    padding-bottom: 0.25rem;
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.section-header-link svg {
+    width: 15px;
+    height: 15px;
+    transition: transform 0.3s var(--ease-out-quart);
+}
+
+.section-header-link:hover {
+    color: var(--color-accent-light);
+    border-color: var(--color-accent-light);
+}
+
+.section-header-link:hover svg {
+    transform: translateX(4px);
+}
+
 .section-header.center .section-subtitle {
     margin-left: auto;
     margin-right: auto;
