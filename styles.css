@@ -515,8 +515,11 @@ body.intro-complete .hero-scroll {
     background: var(--color-bg);
     z-index: 999;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s, visibility 0.4s;
@@ -527,17 +530,27 @@ body.intro-complete .hero-scroll {
     visibility: visible;
 }
 
+/* Content starts below the fixed nav (which stays on top with the close button)
+   and centres itself in the remaining space; scrolls if the list is taller. */
 .mobile-menu-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    justify-content: center;
+    gap: clamp(0.6rem, 2.2vh, 2rem);
+    width: 100%;
+    min-height: 100%;
+    padding: calc(var(--nav-height) + 1.5rem) 1.5rem calc(3rem + env(safe-area-inset-bottom));
 }
 
 .mobile-link {
     font-family: var(--font-display);
-    font-size: 2.5rem;
+    font-size: clamp(1.35rem, 5.6vw, 2.5rem);
+    line-height: 1.2;
     font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    padding: 0.25rem 0.5rem;
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.4s, transform 0.4s, color 0.3s;
@@ -553,6 +566,26 @@ body.intro-complete .hero-scroll {
 .mobile-menu.active .mobile-link:nth-child(3) { transition-delay: 0.2s; }
 .mobile-menu.active .mobile-link:nth-child(4) { transition-delay: 0.25s; }
 .mobile-menu.active .mobile-link:nth-child(5) { transition-delay: 0.3s; }
+.mobile-menu.active .mobile-link:nth-child(6) { transition-delay: 0.35s; }
+.mobile-menu.active .mobile-link:nth-child(7) { transition-delay: 0.4s; }
+.mobile-menu.active .mobile-link:nth-child(8) { transition-delay: 0.45s; }
+
+/* Gold CTA inside the mobile menu (desktop nav CTA is hidden below 1024px) */
+.mobile-link-cta {
+    margin-top: 0.75rem;
+    padding: 0.75rem 2.25rem;
+    font-size: clamp(1.1rem, 4.4vw, 1.6rem);
+    background: var(--color-accent);
+    color: var(--color-bg);
+    border-radius: 100px;
+    transition: opacity 0.4s, transform 0.4s, background 0.3s;
+}
+
+.mobile-link-cta:hover,
+.mobile-link-cta:active {
+    background: var(--color-accent-light);
+    color: var(--color-bg);
+}
 
 .mobile-link:hover {
     color: var(--color-accent);
